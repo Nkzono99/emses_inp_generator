@@ -1,12 +1,13 @@
-from gui import create_window
-import PySimpleGUI as sg
-from emsesinp import Plasmainp, UnitConversionKey
-import os
-from savedata import save
-from apply_parameter_on_gui import load
-from units import Units
 import math
+import os
 
+import PySimpleGUI as sg
+
+from apply_parameter_on_gui import load
+from emsesinp import Plasmainp, UnitConversionKey
+from gui import create_window
+from savedata import save
+from units import Units
 
 default_inp_path = 'template/default.inp'
 
@@ -93,7 +94,7 @@ def main():
             window['debye'].Update(value=debye(values))
             window['egyro'].Update(value=egyro(values))
             window['igyro'].Update(value=igyro(values))
-        
+
         if event == 'Restart Window':
             res = sg.popup_ok_cancel('Can I just restart this window?')
             if res == 'OK':

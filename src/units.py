@@ -53,8 +53,8 @@ class Units:
                  dx=0.001,
                  to_c=10000):
         self.dx = dx
-        from_c=299792458
-        to_e0=1
+        from_c = 299792458
+        to_e0 = 1
         pi = UnitTranslator(3.141592654, 3.141592654, name='Circular constant')
         e = UnitTranslator(2.718281828, 2.718281828, name='Napiers constant')
 

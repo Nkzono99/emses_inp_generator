@@ -1,6 +1,7 @@
+import math
+
 from emsesinp import UnitConversionKey
 from units import Units
-import math
 
 
 def wpe(values, unit):
@@ -132,6 +133,5 @@ def save(inp, filename, values):
         inp['emissn']['nflag_emit'] = [0, 0, 2]
         inp['emissn'].start_index['dnsf'] = [3]
         inp['emissn']['dnsf'] = [int(values['dnsfp'])]
-
 
     inp.save(filename, convkey=convkey)

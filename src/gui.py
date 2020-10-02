@@ -52,8 +52,9 @@ keyとパラメータの関係
     igyro : Ion gyro radius [m]
 
 """
-import PySimpleGUI as sg
 import glob
+
+import PySimpleGUI as sg
 
 name_size = (30, 1)
 value_size = (20, 1)
@@ -201,7 +202,8 @@ def create_main_frame():
         [basis_frame],
         [parameter_tabs, sg.Button('=>', key='Check'), check_frame],
         [tmgrid_frame, extra_frame],
-        [sg.Submit(button_text='Save'), sg.Submit(button_text='Load'), sg.Button('Restart Window')]
+        [sg.Submit(button_text='Save'), sg.Submit(
+            button_text='Load'), sg.Button('Restart Window')]
     ]
     return sg.Frame('Parameter settings', layout)
 

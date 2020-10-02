@@ -1,7 +1,9 @@
-from units import Units
 import os
-from emsesinp import Plasmainp, UnitConversionKey
+
 import PySimpleGUI as sg
+
+from emsesinp import Plasmainp, UnitConversionKey
+from units import Units
 
 
 def n0(inp, unit):
