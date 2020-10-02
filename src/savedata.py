@@ -124,6 +124,7 @@ def save(inp, filename, values):
 
         inp['intp']['qm'].append(-1.0)
         inp['intp']['path'].append(pathp(values, unit))
+        inp['intp']['peth'].append(pathp(values, unit))
         inp['intp']['npin'].append(0)
         inp['intp'].start_index['np'] = [3]
         inp['intp']['np'] = [int(values['np_per_grid']) * nx * ny * nz]
