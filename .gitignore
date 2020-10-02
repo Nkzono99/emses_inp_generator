@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-template/
+template/*
 !template/default.inp

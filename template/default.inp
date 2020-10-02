@@ -1,0 +1,94 @@
+!!key dx=[0.01],to_c=[10000.0]
+&real
+/
+
+&realcv
+/
+
+&esorem
+    emflag = 0
+/
+
+&jobcon
+    jobnum = 0, 1
+    nstep = 100000
+/
+
+&digcon
+    hdfdigstart = 0
+    intfoc = 100
+    ifdiag = 10000
+    ijdiag = 10000
+    daverg = 2
+    ipahdf(1:2) = 0, 0, 
+    ipadig(1:2) = 1024, 1024
+    ipaxyz = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ifxyz = 1, 1, 1, 1, 1, 1, 1
+    ijxyz = 1, 1, 1
+/
+
+&plasma
+    wp(1:2) = 0.04207807242097621, 0.0013306254839980027
+    wc = 0.0
+    cv = 10000.0
+    phiz = 0.0
+    phixy = 0.0
+/
+
+&tmgrid
+    dt = 0.01
+    nx = 64
+    ny = 64
+    nz = 512
+/
+
+&system
+    nspec = 2
+    ionchg = 0
+    nfbnd = 0, 0, 0
+    npbnd = 0, 0, 2, 0, 0, 2
+    nflag_ecrct = 1
+    mtd_vbnd = 0, 0, 2
+/
+
+&intp
+    qm(1:2) = -1.0, 0.001
+    npin(1:2) = 83886080, 83886080
+    path(1:2) = 44.237443494336965, 1.3989107930510278
+    peth(1:2) = 4.106546289, 0.112462402
+    vdri(1:2) = -13.342563807926082, -13.342563807926082
+    vdthz(1:2) = 0.0, 0.0
+    vdthxy(1:2) = 180.0, 180.0
+/
+
+&inp
+    inpf(1:2) = 1, 1
+    inpb(1:2) = 1, 1
+    injct(1:2) = 1, 1
+    npr(1:2) = 524288, 524288
+/
+
+&ptcond
+    npc = 0
+    npcg = 0
+    pcgs(1) = 0
+    ccgs(1) = 0
+    mtd_vchg(1) = 0
+    modeww = -2
+/
+
+&scrnt
+/
+
+&emissn
+/
+
+&dipole
+/
+
+&mpi
+    nodes = 4, 2, 32
+/
+
+&verbose
+/
