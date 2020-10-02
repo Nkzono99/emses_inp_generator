@@ -59,16 +59,23 @@ def main():
 
         if event == 'Save':
             filename = sg.popup_get_file('保存するファイル名を指定してください',
+                                         save_as=True,
                                          default_path='plasma.inp',
-                                         default_extension='inp')
-            if filename is None:
+                                         default_extension='inp',
+                                         no_window=True,
+                                         file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
+            if filename is None or len(filename) == 0:
                 continue
             save(inp, filename, values)
 
         if event == 'Load':
             filename = sg.popup_get_file('読み込むファイル名を指定してください',
                                          default_path='plasma.inp',
-                                         default_extension='inp')
+                                         default_extension='inp',
+                                         no_window=True,
+                                         file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
+            if filename is None or len(filename) == 0:
+                continue
             res = load(filename, window)
             if res is not None:
                 inp = res
@@ -83,10 +90,15 @@ def main():
 
         if event == 'Save Template':
             filename = sg.popup_get_file('保存するファイル名を指定してください',
+                                         save_as=True,
                                          default_path='template.inp',
                                          default_extension='inp',
-                                         initial_folder='template')
-            if filename is None:
+                                         initial_folder='template',
+                                         no_window=True,
+                                         file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
+            if filename is None or len(filename) == 0:
+                continue
+            if not os.path.exists(filename):
                 continue
             save(inp, os.path.join('template', filename), values)
 
