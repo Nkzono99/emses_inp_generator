@@ -3,7 +3,7 @@ import os
 
 import PySimpleGUI as sg
 
-from apply_parameter_on_gui import load
+from loader import create_default_loader
 from emsesinp import Plasmainp, UnitConversionKey
 from gui.gui import WindowCreator
 from savedata import save
@@ -49,7 +49,9 @@ def main():
     window = wc.create_window()
     window.finalize()
 
-    inp = load(default_inp_path, window)
+    loader = create_default_loader(window)
+
+    inp = loader.load(default_inp_path)
     if inp is None:
         inp = Plasmainp()
 
@@ -78,7 +80,7 @@ def main():
                                          file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
             if filename is None or len(filename) == 0:
                 continue
-            res = load(filename, window)
+            res = loader.load(filename)
             if res is not None:
                 inp = res
 
@@ -86,7 +88,7 @@ def main():
             if len(values['template_file']) == 0:
                 continue
             filename = values['template_file'][0]
-            res = load(filename, window)
+            res = loader.load(filename)
             if res is not None:
                 inp = res
 

@@ -59,8 +59,14 @@ class Plasmainp:
         else:
             self.namelist = f90nml.read(filename)
 
-    def __getitem__(self, item):
-        return self.namelist[item]
+    def __getitem__(self, key):
+        if key in self.namelist.keys():
+            return self.namelist[key]
+        else:
+            for group in self.namelist.keys():
+                if key in self.namelist[group].keys():
+                    return self.namelist[group][key]
+        raise KeyError()
 
     def save(self, filename, convkey=None):
         with open(filename, 'wt', encoding='utf-8') as f:

@@ -53,6 +53,7 @@ class Units:
                  dx=0.001,
                  to_c=10000):
         self.dx = dx
+        self.to_c = to_c
         from_c = 299792458
         to_e0 = 1
         pi = UnitTranslator(3.141592654, 3.141592654, name='Circular constant')
