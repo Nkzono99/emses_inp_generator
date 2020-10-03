@@ -113,7 +113,7 @@ def _np_per_grid(inp, unit):
     nx = inp['nx']
     ny = inp['ny']
     nz = inp['nz']
-    return inp['npin'][0] / (nx * ny * nz)
+    return int(inp['npin'][0] / (nx * ny * nz))
 
 
 def _n0(inp, unit):
