@@ -5,7 +5,7 @@ import PySimpleGUI as sg
 
 from apply_parameter_on_gui import load
 from emsesinp import Plasmainp, UnitConversionKey
-from gui import create_window
+from gui.gui import WindowCreator
 from savedata import save
 from units import Units
 
@@ -44,7 +44,9 @@ def igyro(values):
 
 
 def main():
-    window = create_window()
+    wc = WindowCreator()
+
+    window = wc.create_window()
     window.finalize()
 
     inp = load(default_inp_path, window)

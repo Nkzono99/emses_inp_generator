@@ -1,60 +1,6 @@
-"""
-GUI設定.
-
-keyとパラメータの関係
-    use_em : Use em mode
-    use_pe : Use photoelectron
-
-    dx : Grid Width [m]
-    c : Light speed [m/s]
-    qe/me : Electron charge-to-mass ratio
-    e0 : FS-Permittivity [Fm^-1]
-
-    em_dx : Grid Width (EMSES Unit)
-    em_c : Light speed (EMSES Unit)
-    em_qe/me : Electron charge-to-mass ratio (EMSES Unit)
-    em_e0 : FS-Permittivity (EMSES Unit)
-
-    dt : dt [s]
-    nx : nx
-    ny : ny
-    nz : nz
-    nstep : nstep
-
-    n0 : Plasma density [/cc]
-    Te : Electron temperature [eV]
-    Ti : Ion temperature [eV]
-    mi2me : Ion-to-electron mass ratio
-    vdrie : Electron flow speed [m/s]
-    vdrii : Ion flow speed [m/s]
-    B : Magntic field [nT]
-
-    np_per_grid : Number of superparticles per grid
-
-    Jp : PE current density [microA/m^2]
-    Tp : PE temprature [eV]
-    dnsfp : Number of superparticles per photoelectron
-
-    nbndx[0-1] : Field Boundary X
-    nbndy[0-1] : Field Boundary Y
-    nbndz[0-1] : Field Boundary Z
-    npbndx[0-2] : Particles Boundary X
-    npbndx[0-2] : Particles Boundary Y
-    npbndx[0-2] : Particles Boundary Z
-
-    jobnum : jobnum
-    nodesx : nodes x
-    nodesy : nodes y
-    nodesz : nodes z
-
-    debye : Debye Length [m]
-    egyro : Electron gyro radius [m]
-    igyro : Ion gyro radius [m]
-
-"""
-import glob
-
 import PySimpleGUI as sg
+
+import glob
 
 name_size = (30, 1)
 value_size = (20, 1)
@@ -182,16 +128,10 @@ def create_check_frame():
     return sg.Frame('チェック', layout)
 
 
-def create_main_frame():
+def create_main_frame(tab_creators):
     tmgrid_frame = create_simulation_frame()
     basis_frame = create_basis_frame()
-
-    plasma_tab = create_plasma_tab()
-    boundary_tab = create_boundary_tab()
-    pic_tab = create_pic_parameter()
-    photo_tab = create_photo_tab()
-    parameter_tabs = sg.TabGroup(
-        [[plasma_tab, boundary_tab, pic_tab, photo_tab]])
+    parameter_tabs = sg.TabGroup([[creator() for creator in tab_creators]])
 
     check_frame = create_check_frame()
     extra_frame = create_extra_frame()
@@ -215,17 +155,3 @@ def create_template_frame():
         [sg.Button('Apply Template'), sg.Button('Save Template')]
     ]
     return sg.Frame('Template files', layout)
-
-
-def create_window():
-    sg.theme('Dark Blue 3')
-
-    template_frame = create_template_frame()
-    main_frame = create_main_frame()
-
-    layout = [
-        [template_frame, main_frame]
-    ]
-
-    window = sg.Window('plasma.inp generator', layout)
-    return window
