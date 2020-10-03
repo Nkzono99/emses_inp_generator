@@ -55,21 +55,47 @@ class UnitConversionKey:
 class Plasmainp:
     def __init__(self, filename=None):
         if filename is None:
-            self.namelist = create_empty_namelist()
+            self.nml = create_empty_namelist()
         else:
-            self.namelist = f90nml.read(filename)
+            self.nml = f90nml.read(filename)
 
     def __getitem__(self, key):
-        if key in self.namelist.keys():
-            return self.namelist[key]
+        if key in self.nml.keys():
+            return self.nml[key]
         else:
-            for group in self.namelist.keys():
-                if key in self.namelist[group].keys():
-                    return self.namelist[group][key]
+            for group in self.nml.keys():
+                if key in self.nml[group].keys():
+                    return self.nml[group][key]
         raise KeyError()
+
+    def setlist(self, group, name, value, start_index=1):
+        if not isinstance(value, list):
+            value = [value]
+
+        if name in self.nml[group].start_index:
+            end_index = start_index + len(value) - 1
+
+            start_index_init, = self.nml[group].start_index[name]
+            end_index_init = start_index_init + len(self.nml[group][name]) - 1
+
+            min_start_index = min(start_index, start_index_init)
+            max_end_index = max(end_index, end_index_init)
+            offset = start_index_init-min_start_index
+            offset_set = start_index-min_start_index
+
+            new_list = [None] * (max_end_index - min_start_index)
+            new_list[offset:end_index_init-offset] = self.nml[group][name]
+            new_list[offset_set: end_index-offset_set] = value
+
+            self.nml[group].start_index[name] = [min_start_index]
+            self.nml[group][name] = new_list
+        else:
+            self.nml[group].start_index[name] = [start_index]
+            self.nml[group][name] = value
+
 
     def save(self, filename, convkey=None):
         with open(filename, 'wt', encoding='utf-8') as f:
             if convkey is not None:
                 f.write('!!key {}\n'.format(convkey.keytext))
-            f90nml.write(self.namelist, f, force=True)
+            f90nml.write(self.nml, f, force=True)
