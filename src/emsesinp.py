@@ -73,19 +73,19 @@ class Plasmainp:
             value = [value]
 
         if name in self.nml[group].start_index:
-            end_index = start_index + len(value) - 1
+            end_index = start_index + len(value)
 
             start_index_init, = self.nml[group].start_index[name]
-            end_index_init = start_index_init + len(self.nml[group][name]) - 1
+            end_index_init = start_index_init + len(self.nml[group][name])
 
             min_start_index = min(start_index, start_index_init)
             max_end_index = max(end_index, end_index_init)
-            offset = start_index_init-min_start_index
-            offset_set = start_index-min_start_index
 
             new_list = [None] * (max_end_index - min_start_index)
-            new_list[offset:end_index_init-offset] = self.nml[group][name]
-            new_list[offset_set: end_index-offset_set] = value
+            for i, index in enumerate(range(start_index_init-min_start_index, end_index_init-min_start_index)):
+                new_list[index] = self.nml[group][name][i]
+            for i, index in enumerate(range(start_index-min_start_index, end_index-min_start_index)):
+                new_list[index] = value[i]
 
             self.nml[group].start_index[name] = [min_start_index]
             self.nml[group][name] = new_list
