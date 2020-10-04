@@ -6,7 +6,7 @@ import PySimpleGUI as sg
 from loader import create_default_loader
 from emsesinp import Plasmainp, UnitConversionKey
 from gui.gui import WindowCreator
-from savedata import save
+from savedata import create_default_saver
 from units import Units
 
 default_inp_path = 'template/default.inp'
@@ -50,6 +50,7 @@ def main():
     window.finalize()
 
     loader = create_default_loader(window)
+    saver = create_default_saver()
 
     inp = loader.load(default_inp_path)
     if inp is None:
@@ -70,7 +71,7 @@ def main():
                                          file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
             if filename is None or len(filename) == 0:
                 continue
-            save(inp, filename, values)
+            saver.save(filename, inp, values)
 
         if event == 'Load':
             filename = sg.popup_get_file('読み込むファイル名を指定してください',
@@ -104,7 +105,7 @@ def main():
                 continue
             if not os.path.exists(filename):
                 continue
-            save(inp, os.path.join('template', filename), values)
+            saver.save(filename, inp, values)
 
         if event == 'Check':
             window['debye'].Update(value=debye(values))
