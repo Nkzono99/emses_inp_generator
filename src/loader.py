@@ -7,8 +7,7 @@ from units import Units
 
 
 class Loader:
-    def __init__(self, window):
-        self.window = window
+    def __init__(self):
         self.applyers = {}  # lambda Plasmainp, Units: value
         self.exceptors = {}  # lambda Plasmainp, Units: bool
     
@@ -19,13 +18,18 @@ class Loader:
             exceptor = lambda inp, unit: True
         self.exceptors[key] = exceptor
     
-    def apply(self, inp, convkey):
+    def apply(self, inp, convkey, window):
         unit = Units(convkey.dx, convkey.to_c)
         for key, applyer in self.applyers.items():
-            if self.exceptors[key](inp, unit):
-                self.window[key].Update(value=applyer(inp, unit))
+            if not self.exceptors[key](inp, unit):
+                continue
+            try:
+                value = applyer(inp, unit)
+            except KeyError:
+                continue
+            window[key].Update(value=value)
     
-    def load(self, filename):
+    def load(self, filename, window):
         if filename is None or not os.path.exists(filename):
             return None
 
@@ -46,12 +50,12 @@ class Loader:
             convkey = UnitConversionKey(dx, to_c)
 
         inp = Plasmainp(filename)
-        self.apply(inp, convkey)
+        self.apply(inp, convkey, window)
         return inp
 
 
-def create_default_loader(window):
-    loader = Loader(window)
+def create_default_loader():
+    loader = Loader()
 
     loader.add_applyer('use_em', lambda i, u: i['emflag'] == 1)
     loader.add_applyer('use_pe', lambda i, u: i['nspec'] == 3)

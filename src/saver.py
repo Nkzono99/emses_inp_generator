@@ -40,6 +40,7 @@ def create_default_saver():
     saver.add_saver(save_intp)
     saver.add_saver(save_mpi)
     saver.add_saver(save_pe, exceptor=lambda i, v, u: v['use_pe'])
+    saver.add_saver(remove_pe, exceptor=lambda i, v, u: not v['use_pe'])
 
     return saver
 
@@ -111,6 +112,17 @@ def save_pe(inp, values, unit):
     inp.setlist('emissn', 'curf', curf(values, unit), start_index=3)
     inp.setlist('emissn', 'nflag_emit', 2, start_index=3)
     inp.setlist('emissn', 'dnsf', int(values['dnsfp']), start_index=3)
+
+
+def remove_pe(inp, values, unit):
+    inp.remove('nflag_emit')
+    inp.remove('wp', index=3)
+    inp.remove('path', index=3)
+    inp.remove('peth', index=3)
+    inp.remove('npin', index=3)
+    inp.remove('np', index=3)
+    inp.remove('curf', index=3)
+    inp.remove('dnsf', index=3)
 
 
 def wpe(values, unit):

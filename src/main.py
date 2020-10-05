@@ -1,12 +1,15 @@
 import math
 import os
+from configparser import ConfigParser
+from argparse import ArgumentParser
+from additional import add_additional_parameter
 
 import PySimpleGUI as sg
 
 from loader import create_default_loader
 from emsesinp import Plasmainp, UnitConversionKey
 from gui.gui import WindowCreator
-from savedata import create_default_saver
+from saver import create_default_saver
 from units import Units
 
 default_inp_path = 'template/default.inp'
@@ -43,16 +46,27 @@ def igyro(values):
     return math.sqrt(mi * qe * Ti) / (qe * B)
 
 
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument('--config', default='config.ini', help='Config file')
+    return parser.parse_args()
+
 def main():
+    args = parse_args()
+    
+    config = ConfigParser()
+    config.read(args.config)
+
     wc = WindowCreator()
+    loader = create_default_loader()
+    saver = create_default_saver()
+
+    add_additional_parameter(config, wc, loader, saver)
 
     window = wc.create_window()
     window.finalize()
 
-    loader = create_default_loader(window)
-    saver = create_default_saver()
-
-    inp = loader.load(default_inp_path)
+    inp = loader.load(default_inp_path, window)
     if inp is None:
         inp = Plasmainp()
 
@@ -81,7 +95,7 @@ def main():
                                          file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
             if filename is None or len(filename) == 0:
                 continue
-            res = loader.load(filename)
+            res = loader.load(filename, window)
             if res is not None:
                 inp = res
 
@@ -89,7 +103,7 @@ def main():
             if len(values['template_file']) == 0:
                 continue
             filename = values['template_file'][0]
-            res = loader.load(filename)
+            res = loader.load(filename, window)
             if res is not None:
                 inp = res
 
