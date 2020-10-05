@@ -67,6 +67,22 @@ class Plasmainp:
                 if key in self.nml[group].keys():
                     return self.nml[group][key]
         raise KeyError()
+    
+    def remove(self, key, index=None):
+        if key in self.nml.keys():
+            del self.nml[key]
+        else:
+            for group in self.nml.keys():
+                if key in self.nml[group].keys():
+                    try:
+                        if index is None:
+                            del self.nml[group][key]
+                        else:
+                            start_index, = self.nml[group].start_index[key]
+                            del self.nml[group][key][index - start_index]
+                    except (KeyError, IndexError):
+                        pass
+                    return
 
     def setlist(self, group, name, value, start_index=1):
         if not isinstance(value, list):
