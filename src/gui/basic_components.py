@@ -30,10 +30,13 @@ def parameter(name, default, key, fix_unit=False):
     return [name_text, physical_unit]
 
 
-def radio_box(name, *selections, group_id):
+def radio_box(name, *selections, group_id, default_index=0):
     name_text = sg.Text(name, size=name_size)
-    radios = [sg.Radio(selection, group_id=group_id, default=(
-        i == 0), key='{}{}'.format(group_id, i)) for i, selection in enumerate(selections)]
+    radios = [sg.Radio(selection,
+                       group_id=group_id,
+                       default=(i == default_index),
+                       key='{}{}'.format(group_id, i))
+              for i, selection in enumerate(selections)]
     box = [name_text]
     for radio in radios:
         box.append(radio)
