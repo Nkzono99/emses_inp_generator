@@ -60,8 +60,6 @@ from additional import add_additional_parameter
 from default import WindowCreator, create_default_loader, create_default_saver
 from utils import Plasmainp, UnitConversionKey, Units
 
-default_inp_path = 'template/default.inp'
-
 
 def debye(values):
     unit = Units()
@@ -115,7 +113,7 @@ def main():
     window = wc.create_window()
     window.finalize()
 
-    inp = loader.load(default_inp_path, window)
+    inp = loader.load(config['Default']['DefaultInpPath'], window)
     if inp is None:
         inp = Plasmainp()
 
