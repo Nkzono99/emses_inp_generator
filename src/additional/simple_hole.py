@@ -12,7 +12,7 @@ def add_simple_hole_parameter(window_creator, loader, saver):
     saver.add_saver(remove_hole, lambda i, v, u: not v['use_hole'])
 
     saver.add_saver(save_emission, lambda i, v, u: v['use_pe'])
-    saver.add_saver(remove_emission, lambda i, v, u: not v['use_pe'])
+    saver.add_saver(remove_emission, lambda i, v, u: not v['use_pe'] or not v['use_hole'])
 
 
 def create_simple_hole_frame():
@@ -148,7 +148,6 @@ def remove_hole(inp, values, unit):
     inp.remove('yurechole')
     inp.remove('zlrechole')
     inp.remove('zurechole')
-    remove_emission(inp, values, unit)
 
 
 def remove_emission(inp, values, unit):
