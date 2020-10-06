@@ -7,9 +7,13 @@ from additional.simple_hole import add_simple_hole_parameter
 
 def add_additional_parameter(config, window_creator, loader, saver):
     add_simple_plasma_parameter(window_creator, loader, saver)
-    add_boundary_parameter(window_creator, loader, saver)
-    add_photo_parameter(window_creator, loader, saver)
     add_pic_parameter(window_creator, loader, saver)
+
+    if config['Control'].getboolean('ControlPhotoelectronParameter'):
+        add_photo_parameter(window_creator, loader, saver)
+
+    if config['Control'].getboolean('ControlBoundaryParameter'):
+        add_boundary_parameter(window_creator, loader, saver)
     
-    if config['Verbose'].getboolean('UseHole'):
+    if config['Control'].getboolean('ControlSimpleHoleParameter'):
         add_simple_hole_parameter(window_creator, loader, saver)
