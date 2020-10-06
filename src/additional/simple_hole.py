@@ -1,3 +1,32 @@
+"""シンプルな形状の方形孔のパラメータを管理する.
+
+管理するパラメータ:
+    &ptcond
+        zssurf
+        xlrechole
+        ylrechole
+        yurechole
+        zlrechole
+        zurechole
+    &emissn
+        nemd
+        xmine
+        xmaxe
+        ymine
+        ymaxe
+        zmine
+        zmaxe
+
+GUIのキー:
+    zssurf : Surface height [grid]
+    nemd : Direction of Sunlight (0: x, 1: y, 2: z)
+    use_hole : Use hole
+    hole_xlen : Hole X side length [grid]
+    hole_ylen : Hole Y side length [grid]
+    hole_depth : Hole depth [grid]
+    thetaz : Sunlight incident angle z [dig]
+    thetaxy : Sunlight incident angle xy [dig]
+"""
 import PySimpleGUI as sg
 import math
 
