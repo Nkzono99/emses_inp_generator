@@ -1,3 +1,24 @@
+"""光電子のパラメータを管理する.
+
+管理するパラメータ:
+    &plasma
+        wp(3)
+    &intp
+        qm(3)
+        path(3)
+        peth(3)
+        npin(3)
+        np(3)
+    &emissn
+        nflag_emit(3)
+        curf(3)
+        dnsf(3)
+
+GUIのキー:
+    Jp : PE current density [microA/m^2]
+    Tp : PE temprature [eV]
+    dnsfp : Number of superparticles per photoelectron
+"""
 import PySimpleGUI as sg
 import math
 
@@ -60,7 +81,7 @@ def save_photo(inp, values, unit):
 
 
 def remove_photo(inp, values, unit):
-    inp.remove('nflag_emit')
+    inp.remove('nflag_emit', index=3)
     inp.remove('wp', index=3)
     inp.remove('path', index=3)
     inp.remove('peth', index=3)

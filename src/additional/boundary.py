@@ -1,7 +1,20 @@
-import math
+"""境界条件のパラメータを管理する.
 
+管理するパラメータ:
+    &system
+        nfbnd
+        npbnd
+
+GUIのキー:
+    nfbndx[0-1] : Field Boundary X
+    nfbndy[0-1] : Field Boundary Y
+    nfbndz[0-1] : Field Boundary Z
+    npbndx[0-2] : Particles Boundary X
+    npbndx[0-2] : Particles Boundary Y
+    npbndx[0-2] : Particles Boundary Z
+"""
 import PySimpleGUI as sg
-from gui.basic_components import parameter, radio_box
+from gui.basic_components import radio_box
 from saver import selectIndex
 
 

@@ -1,4 +1,12 @@
+"""PICのパラメータを管理する.
 
+管理するパラメータ:
+    &intp
+        npin(1:2)
+
+GUIのキー:
+    np_per_grid: Number of super particles per grid
+"""
 import PySimpleGUI as sg
 from gui.basic_components import parameter, radio_box
 

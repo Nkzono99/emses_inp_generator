@@ -1,3 +1,24 @@
+"""シンプルなプラズマパラメータを管理する.
+
+管理するパラメータ:
+    &plasma
+        wp(1:2)
+        wc
+    &intp
+        qm(1:2)
+        path(1:2)
+        peth(1:2)
+        vdri(1:2)
+
+GUIのキー:
+    n0 : Plasma density [/cc]
+    Te : Electron temperature [eV]
+    Ti : Ion temperature [eV]
+    mi2me : Ion-to-electron mass ratio
+    vdrie : Electron flow speed [m/s]
+    vdrii : Ion flow speed [m/s]
+    B : Magntic field [nT]
+"""
 import PySimpleGUI as sg
 import math
 

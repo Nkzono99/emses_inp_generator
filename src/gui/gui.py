@@ -21,25 +21,6 @@ keyとパラメータの関係
     nz : nz
     nstep : nstep
 
-    n0 : Plasma density [/cc]
-    Te : Electron temperature [eV]
-    Ti : Ion temperature [eV]
-    mi2me : Ion-to-electron mass ratio
-    vdrie : Electron flow speed [m/s]
-    vdrii : Ion flow speed [m/s]
-    B : Magntic field [nT]
-
-    Jp : PE current density [microA/m^2]
-    Tp : PE temprature [eV]
-    dnsfp : Number of superparticles per photoelectron
-
-    nbndx[0-1] : Field Boundary X
-    nbndy[0-1] : Field Boundary Y
-    nbndz[0-1] : Field Boundary Z
-    npbndx[0-2] : Particles Boundary X
-    npbndx[0-2] : Particles Boundary Y
-    npbndx[0-2] : Particles Boundary Z
-
     jobnum : jobnum
     nodesx : nodes x
     nodesy : nodes y
