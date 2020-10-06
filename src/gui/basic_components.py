@@ -81,15 +81,6 @@ def create_plasma_tab():
     return sg.Tab('プラズマパラメータ', layout)
 
 
-def create_photo_tab():
-    layout = [
-        parameter('PE current density [microA/m^2]', 0, key='Jp'),
-        parameter('PE temprature [eV]', 1.0, key='Tp'),
-        parameter('Number of superparticles per PE', 40, key='dnsfp')
-    ]
-    return sg.Tab('光電子パラメータ', layout)
-
-
 def create_boundary_tab():
     layout = [
         radio_box('Field Boundary X', 'periodic', 'free', group_id='nfbndx'),

@@ -77,11 +77,6 @@ def create_default_loader():
     loader.add_applyer('vdrii', lambda i, u: u.v.reverse(i['vdri'][1]))
     loader.add_applyer('B', _B)
 
-    use_pe = lambda i, u: i['nspec'] == 3
-    loader.add_applyer('Jp', lambda i, u: u.J.reverse(i['curf'][-1]) * 1e6, exceptor=use_pe)
-    loader.add_applyer('Tp', _Tp, exceptor=use_pe)
-    loader.add_applyer('dnsfp', lambda i, u: i['dnsf'][-1], exceptor=use_pe)
-
     loader.add_applyer('nfbndx0', lambda i, u: i['nfbnd'][0] == 0)
     loader.add_applyer('nfbndx1', lambda i, u: i['nfbnd'][0] == 1)
     loader.add_applyer('nfbndy0', lambda i, u: i['nfbnd'][1] == 0)
@@ -103,11 +98,6 @@ def create_default_loader():
     loader.add_applyer('nodesx', lambda i, u: i['nodes'][0])
     loader.add_applyer('nodesy', lambda i, u: i['nodes'][1])
     loader.add_applyer('nodesz', lambda i, u: i['nodes'][2])
-
-    use_pe = lambda i, u: i['nspec'] == 3
-    loader.add_applyer('Jp', lambda i, u: u.J.reverse(i['curf'][-1]) * 1e6, exceptor=use_pe)
-    loader.add_applyer('Tp', _Tp, exceptor=use_pe)
-    loader.add_applyer('dnsfp', lambda i, u: i['dnsf'][-1], exceptor=use_pe)
 
     return loader
 
@@ -132,13 +122,6 @@ def _Ti(inp, unit):
     mi = unit.me.from_unit / inp['intp']['qm'][1]
     path = unit.v.reverse(inp['intp']['path'][1])
     return mi * path * path / qe
-
-
-def _Tp(inp, unit):
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    path = unit.v.reverse(inp['intp']['path'][2])
-    return me * path * path / qe
 
 
 def _B(inp, unit):
