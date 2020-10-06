@@ -41,6 +41,6 @@ def save_pic(inp, values, unit):
     nx = int(values['nx'])
     ny = int(values['ny'])
     nz = int(values['nz'])
+    np = int(values['np_per_grid']) * nx * ny * nz
 
-    inp.setlist('intp', 'npin', [
-                int(values['np_per_grid']) * nx * ny * nz] * 2)
+    inp.setlist('intp', 'npin', [np] * 2)

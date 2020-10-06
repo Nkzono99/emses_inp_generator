@@ -8,14 +8,14 @@ class Saver:
     def __init__(self):
         self.savers = []
         self.exceptors = []
-    
+
     def add_saver(self, saver, exceptor=None):
         if exceptor is None:
-            exceptor = lambda inp, values, unit: True
+            def exceptor(inp, values, unit): return True
 
         self.savers.append(saver)
         self.exceptors.append(exceptor)
-    
+
     def save(self, filename, inp, values):
         dx = float(values['dx'])
         to_c = float(values['em_c'])
@@ -47,7 +47,8 @@ def save_esorem(inp, values, unit):
 
 
 def save_job_con(inp, values, unit):
-    inp['jobcon']['jobnum'] = list(map(int, values['jobnum'].split(' ')))
+    jobnum = list(map(int, values['jobnum'].split(' ')))
+    inp.setlist('jobcon', 'jobnum', jobnum)
     inp['jobcon']['nstep'] = int(values['nstep'])
 
 
@@ -68,9 +69,9 @@ def save_system(inp, values, unit):
 
 
 def save_mpi(inp, values, unit):
-    inp['mpi']['nodes'] = [int(values['nodesx']),
-                           int(values['nodesy']),
-                           int(values['nodesz'])]
+    inp.setlist('mpi', 'nodes', [int(values['nodesx']),
+                                 int(values['nodesy']),
+                                 int(values['nodesz'])])
 
 
 def selectIndex(values, name):

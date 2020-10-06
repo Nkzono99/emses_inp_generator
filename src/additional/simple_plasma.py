@@ -88,7 +88,7 @@ def save_simple_plasma(inp, values, unit):
     inp.setlist('plasma', 'wp', [wpe(values, unit), wpi(values, unit)])
     inp['plasma']['wc'] = wc(values, unit)
 
-    inp['intp']['qm'] = [-1.0, 1.0/float(values['mi2me'])]
+    inp.setlist('intp', 'qm', [-1.0, 1.0/float(values['mi2me'])])
     inp.setlist('intp', 'path', [pathe(values, unit), pathi(values, unit)])
     inp.setlist('intp', 'peth', [pathe(values, unit), pathi(values, unit)])
     inp.setlist('intp', 'vdri', [vdrie(values, unit), vdrii(values, unit)])

@@ -77,9 +77,17 @@ class Plasmainp:
                     try:
                         if index is None:
                             del self.nml[group][key]
+                            del self.nml[group].start_index[key]
                         else:
                             start_index, = self.nml[group].start_index[key]
                             del self.nml[group][key][index - start_index]
+
+                            if index == start_index:
+                                self.nml[group].start_index[key] = [start_index + 1]
+
+                            if len(list(self.nml[group][key])) == 0:
+                                del self.nml[group][key]
+                                del self.nml[group].start_index[key]
                     except (KeyError, IndexError):
                         pass
                     return

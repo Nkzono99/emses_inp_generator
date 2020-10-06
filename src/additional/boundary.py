@@ -2,8 +2,8 @@
 
 管理するパラメータ:
     &system
-        nfbnd
-        npbnd
+        nfbnd(1:3)
+        npbnd(1:3*nspec)
 
 GUIのキー:
     nfbndx[0-1] : Field Boundary X
@@ -20,7 +20,7 @@ from saver import selectIndex
 
 def add_boundary_parameter(window_creator, loader, saver):
     window_creator.add_tab_creator(create_boundary_tab)
-    
+
     add_applyer(loader)
 
     saver.add_saver(save_boundary)
@@ -62,9 +62,9 @@ def add_applyer(loader):
 
 def save_boundary(inp, values, unit):
     nspec = 3 if values['use_pe'] else 2
-    inp['system']['nfbnd'] = [selectIndex(values, 'nfbndx'),
-                              selectIndex(values, 'nfbndy'),
-                              selectIndex(values, 'nfbndz')]
-    inp['system']['npbnd'] = [selectIndex(values, 'npbndx'),
-                              selectIndex(values, 'npbndy'),
-                              selectIndex(values, 'npbndz')] * nspec
+    inp.setlist('system', 'nfbnd', [selectIndex(values, 'nfbndx'),
+                                    selectIndex(values, 'nfbndy'),
+                                    selectIndex(values, 'nfbndz')])
+    inp.setlist('system', 'npbnd', [selectIndex(values, 'npbndx'),
+                                    selectIndex(values, 'npbndy'),
+                                    selectIndex(values, 'npbndz')] * nspec)

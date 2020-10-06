@@ -3,19 +3,19 @@
 管理するパラメータ:
     &ptcond
         zssurf
-        xlrechole
-        ylrechole
-        yurechole
-        zlrechole
-        zurechole
+        xlrechole(1:2)
+        ylrechole(1:2)
+        yurechole(1:2)
+        zlrechole(1:2)
+        zurechole(1:2)
     &emissn
-        nemd
-        xmine
-        xmaxe
-        ymine
-        ymaxe
-        zmine
-        zmaxe
+        nemd(1)
+        xmine(1)
+        xmaxe(1)
+        ymine(1)
+        ymaxe(1)
+        zmine(1)
+        zmaxe(1)
 
 GUIのキー:
     zssurf : Surface height [grid]
@@ -97,12 +97,12 @@ def save_hole_shape(inp, values, unit):
     hole_y_max = (ny + hole_ylen) / 2
 
     inp['ptcond']['zssurf'] = zssurf
-    inp['ptcond']['xlrechole'] = [hole_x_min] * 2
-    inp['ptcond']['xurechole'] = [hole_x_max] * 2
-    inp['ptcond']['ylrechole'] = [hole_y_min] * 2
-    inp['ptcond']['yurechole'] = [hole_y_max] * 2
-    inp['ptcond']['zlrechole'] = [zssurf-1.0, zssurf-hole_depth]
-    inp['ptcond']['zurechole'] = [zssurf, zssurf-1.0]
+    inp.setlist('ptcond', 'xlrechole', [hole_x_min] * 2)
+    inp.setlist('ptcond', 'xurechole', [hole_x_max] * 2)
+    inp.setlist('ptcond', 'ylrechole', [hole_y_min] * 2)
+    inp.setlist('ptcond', 'yurechole', [hole_y_max] * 2)
+    inp.setlist('ptcond', 'zlrechole', [zssurf-1.0, zssurf-hole_depth])
+    inp.setlist('ptcond', 'zurechole', [zssurf, zssurf-1.0])
 
 
 def save_emission(inp, values, unit):
@@ -127,13 +127,13 @@ def save_emission(inp, values, unit):
     # 真上から太陽光が照射している場合
     if thetaz == 0:
         inp.setlist('emissn', 'nepl', 1, start_index=3)
-        inp['emissn']['nemd'] = [3]
-        inp['emissn']['xmine'] = [hole_x_min]
-        inp['emissn']['xmaxe'] = [hole_x_max]
-        inp['emissn']['ymine'] = [hole_y_min]
-        inp['emissn']['ymaxe'] = [hole_y_max]
-        inp['emissn']['zmine'] = [hole_z_min]
-        inp['emissn']['zmaxe'] = [hole_z_min]
+        inp.setlist('emissn', 'nemd', 3)
+        inp.setlist('emissn', 'xmine', hole_x_min)
+        inp.setlist('emissn', 'xmaxe', hole_x_max)
+        inp.setlist('emissn', 'ymine', hole_y_min)
+        inp.setlist('emissn', 'ymaxe', hole_y_max)
+        inp.setlist('emissn', 'zmine', hole_z_min)
+        inp.setlist('emissn', 'zmaxe', hole_z_min)
         return
 
     # ラジアンに変換
@@ -161,30 +161,31 @@ def save_emission(inp, values, unit):
         return
 
     inp.setlist('emissn', 'nepl', 1, start_index=3)
-    inp['emissn']['nemd'] = [3]
-    inp['emissn']['xmine'] = [x_min]
-    inp['emissn']['xmaxe'] = [x_max]
-    inp['emissn']['ymine'] = [y_min]
-    inp['emissn']['ymaxe'] = [y_max]
-    inp['emissn']['zmine'] = [hole_z_min]
-    inp['emissn']['zmaxe'] = [hole_z_min]
+    inp.setlist('emissn', 'nemd', 3)
+    inp.setlist('emissn', 'xmine', x_min)
+    inp.setlist('emissn', 'xmaxe', x_max)
+    inp.setlist('emissn', 'ymine', y_min)
+    inp.setlist('emissn', 'ymaxe', y_max)
+    inp.setlist('emissn', 'zmine', hole_z_min)
+    inp.setlist('emissn', 'zmaxe', hole_z_min)
 
 
 def remove_hole(inp, values, unit):
-    inp.remove('xlrechole')
-    inp.remove('xurechole')
-    inp.remove('ylrechole')
-    inp.remove('yurechole')
-    inp.remove('zlrechole')
-    inp.remove('zurechole')
+    for index in (1, 2):
+        inp.remove('xlrechole', index=index)
+        inp.remove('xurechole', index=index)
+        inp.remove('ylrechole', index=index)
+        inp.remove('yurechole', index=index)
+        inp.remove('zlrechole', index=index)
+        inp.remove('zurechole', index=index)
 
 
 def remove_emission(inp, values, unit):
     inp.setlist('emissn', 'nepl', 0, start_index=3)
-    inp.remove('nemd')
-    inp.remove('xmine')
-    inp.remove('xmaxe')
-    inp.remove('ymine')
-    inp.remove('ymaxe')
-    inp.remove('zmine')
-    inp.remove('zmaxe')
+    inp.remove('nemd', index=1)
+    inp.remove('xmine', index=1)
+    inp.remove('xmaxe', index=1)
+    inp.remove('ymine', index=1)
+    inp.remove('ymaxe', index=1)
+    inp.remove('zmine', index=1)
+    inp.remove('zmaxe', index=1)

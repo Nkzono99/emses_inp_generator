@@ -6,7 +6,7 @@
     &esorem
         emflag
     &jobcon
-        jobnum
+        jobnum(1:)
         nstep
     &plasma
         cv
@@ -18,7 +18,7 @@
     &system
         nspec
     &mpi
-        nodes
+        nodes(1:3)
 
 デフォルトのGUIのキー:
     use_em : Use em mode
