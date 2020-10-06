@@ -29,8 +29,6 @@ keyとパラメータの関係
     vdrii : Ion flow speed [m/s]
     B : Magntic field [nT]
 
-    np_per_grid : Number of superparticles per grid
-
     Jp : PE current density [microA/m^2]
     Tp : PE temprature [eV]
     dnsfp : Number of superparticles per photoelectron
@@ -63,7 +61,6 @@ class WindowCreator:
     default_tab_creators = [
         bc.create_plasma_tab,
         bc.create_boundary_tab,
-        bc.create_pic_parameter,
         bc.create_photo_tab
     ]
 

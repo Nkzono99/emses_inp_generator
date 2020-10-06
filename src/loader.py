@@ -76,7 +76,6 @@ def create_default_loader():
     loader.add_applyer('vdrie', lambda i, u: u.v.reverse(i['vdri'][0]))
     loader.add_applyer('vdrii', lambda i, u: u.v.reverse(i['vdri'][1]))
     loader.add_applyer('B', _B)
-    loader.add_applyer('np_per_grid', _np_per_grid)
 
     use_pe = lambda i, u: i['nspec'] == 3
     loader.add_applyer('Jp', lambda i, u: u.J.reverse(i['curf'][-1]) * 1e6, exceptor=use_pe)
@@ -111,13 +110,6 @@ def create_default_loader():
     loader.add_applyer('dnsfp', lambda i, u: i['dnsf'][-1], exceptor=use_pe)
 
     return loader
-
-
-def _np_per_grid(inp, unit):
-    nx = inp['nx']
-    ny = inp['ny']
-    nz = inp['nz']
-    return int(inp['npin'][0] / (nx * ny * nz))
 
 
 def _n0(inp, unit):

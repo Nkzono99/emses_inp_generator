@@ -81,13 +81,6 @@ def create_plasma_tab():
     return sg.Tab('プラズマパラメータ', layout)
 
 
-def create_pic_parameter():
-    layout = [
-        parameter('Number of super particles per grid', 40, key='np_per_grid')
-    ]
-    return sg.Tab('PICパラメータ', layout)
-
-
 def create_photo_tab():
     layout = [
         parameter('PE current density [microA/m^2]', 0, key='Jp'),
