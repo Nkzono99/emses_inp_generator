@@ -1,6 +1,7 @@
-import PySimpleGUI as sg
-
 import glob
+import os
+
+import PySimpleGUI as sg
 
 name_size = (30, 1)
 value_size = (20, 1)
@@ -109,6 +110,8 @@ def create_main_frame(tab_creators):
 
 def create_template_frame():
     template_files = glob.glob('template/*.inp')
+    template_files = [os.path.basename(filename)
+                      for filename in template_files]
     layout = [
         [sg.Listbox(template_files, key='template_file', size=(30, 30))],
         [sg.Button('Apply Template'), sg.Button('Save Template')]

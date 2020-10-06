@@ -154,7 +154,10 @@ def main():
         if event == 'Apply Template':
             if len(values['template_file']) == 0:
                 continue
+
             filename = values['template_file'][0]
+            filename = os.path.join('template', filename)
+
             res = loader.load(filename, window)
             if res is not None:
                 inp = res
