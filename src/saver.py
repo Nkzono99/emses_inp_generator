@@ -68,12 +68,6 @@ def save_tmgrid(inp, values, unit):
 def save_system(inp, values, unit):
     nspec = 3 if values['use_pe'] else 2
     inp['system']['nspec'] = nspec
-    inp['system']['nfbnd'] = [selectIndex(values, 'nfbndx'),
-                              selectIndex(values, 'nfbndy'),
-                              selectIndex(values, 'nfbndz')]
-    inp['system']['npbnd'] = [selectIndex(values, 'npbndx'),
-                              selectIndex(values, 'npbndy'),
-                              selectIndex(values, 'npbndz')] * nspec
 
 
 def save_intp(inp, values, unit):

@@ -77,23 +77,6 @@ def create_default_loader():
     loader.add_applyer('vdrii', lambda i, u: u.v.reverse(i['vdri'][1]))
     loader.add_applyer('B', _B)
 
-    loader.add_applyer('nfbndx0', lambda i, u: i['nfbnd'][0] == 0)
-    loader.add_applyer('nfbndx1', lambda i, u: i['nfbnd'][0] == 1)
-    loader.add_applyer('nfbndy0', lambda i, u: i['nfbnd'][1] == 0)
-    loader.add_applyer('nfbndy1', lambda i, u: i['nfbnd'][1] == 1)
-    loader.add_applyer('nfbndz0', lambda i, u: i['nfbnd'][2] == 0)
-    loader.add_applyer('nfbndz1', lambda i, u: i['nfbnd'][2] == 1)
-
-    loader.add_applyer('npbndx0', lambda i, u: i['npbnd'][0] == 0)
-    loader.add_applyer('npbndx1', lambda i, u: i['npbnd'][0] == 1)
-    loader.add_applyer('npbndx2', lambda i, u: i['npbnd'][0] == 2)
-    loader.add_applyer('npbndy0', lambda i, u: i['npbnd'][1] == 0)
-    loader.add_applyer('npbndy1', lambda i, u: i['npbnd'][1] == 1)
-    loader.add_applyer('npbndy2', lambda i, u: i['npbnd'][1] == 2)
-    loader.add_applyer('npbndz0', lambda i, u: i['npbnd'][2] == 0)
-    loader.add_applyer('npbndz1', lambda i, u: i['npbnd'][2] == 1)
-    loader.add_applyer('npbndz2', lambda i, u: i['npbnd'][2] == 2)
-
     loader.add_applyer('jobnum', lambda i, u: ' '.join(list(map(str, i['jobnum']))))
     loader.add_applyer('nodesx', lambda i, u: i['nodes'][0])
     loader.add_applyer('nodesy', lambda i, u: i['nodes'][1])

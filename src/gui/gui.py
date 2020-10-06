@@ -59,8 +59,7 @@ import gui.basic_components as bc
 
 class WindowCreator:
     default_tab_creators = [
-        bc.create_plasma_tab,
-        bc.create_boundary_tab
+        bc.create_plasma_tab
     ]
 
     def __init__(self,

@@ -81,21 +81,6 @@ def create_plasma_tab():
     return sg.Tab('プラズマパラメータ', layout)
 
 
-def create_boundary_tab():
-    layout = [
-        radio_box('Field Boundary X', 'periodic', 'free', group_id='nfbndx'),
-        radio_box('Field Boundary Y', 'periodic', 'free', group_id='nfbndy'),
-        radio_box('Field Boundary Z', 'periodic', 'free', group_id='nfbndz'),
-        radio_box('Particles Boundary X', 'periodic',
-                  'Dirichlet', 'Neumann', group_id='npbndx'),
-        radio_box('Particles Boundary Y', 'periodic',
-                  'Dirichlet', 'Neumann', group_id='npbndy'),
-        radio_box('Particles Boundary Z', 'periodic',
-                  'Dirichlet', 'Neumann', group_id='npbndz'),
-    ]
-    return sg.Tab('境界条件', layout)
-
-
 def create_extra_frame():
     layout = [
         parameter('jobnum', '0 1', key='jobnum'),
