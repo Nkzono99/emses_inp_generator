@@ -58,10 +58,6 @@ import gui.basic_components as bc
 
 
 class WindowCreator:
-    default_tab_creators = [
-        bc.create_plasma_tab
-    ]
-
     def __init__(self,
                  tab_creators=None,
                  title='plasma.inp generator',
@@ -70,7 +66,7 @@ class WindowCreator:
         self.theme = theme
 
         if tab_creators is None:
-            self.tab_creators = WindowCreator.default_tab_creators
+            self.tab_creators = []
         else:
             self.tab_creators = tab_creators
 

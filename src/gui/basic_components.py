@@ -68,19 +68,6 @@ def create_simulation_frame():
     return sg.Frame('シミュレーションパラメータ', layout)
 
 
-def create_plasma_tab():
-    layout = [
-        parameter('Plasma density [/cc]', 5000, key='n0'),
-        parameter('Electron temperature [eV]', 1.0, key='Te'),
-        parameter('Ion temperature [eV]', 0.5, key='Ti'),
-        parameter('Ion-to-electron mass ratio', 1000, key='mi2me'),
-        parameter('Electron flow speed [m/s]', 1000, key='vdrie'),
-        parameter('Ion flow speed [m/s]', 1000, key='vdrii'),
-        parameter('Magnetic field [nT]', 0, key='B')
-    ]
-    return sg.Tab('プラズマパラメータ', layout)
-
-
 def create_extra_frame():
     layout = [
         parameter('jobnum', '0 1', key='jobnum'),

@@ -37,7 +37,6 @@ def create_default_saver():
     saver.add_saver(save_plasma)
     saver.add_saver(save_tmgrid)
     saver.add_saver(save_system)
-    saver.add_saver(save_intp)
     saver.add_saver(save_mpi)
 
     return saver
@@ -53,8 +52,6 @@ def save_job_con(inp, values, unit):
 
 
 def save_plasma(inp, values, unit):
-    inp.setlist('plasma', 'wp', [wpe(values, unit), wpi(values, unit)])
-    inp['plasma']['wc'] = wc(values, unit)
     inp['plasma']['cv'] = float(values['em_c'])
 
 
@@ -70,67 +67,10 @@ def save_system(inp, values, unit):
     inp['system']['nspec'] = nspec
 
 
-def save_intp(inp, values, unit):
-    inp['intp']['qm'] = [-1.0, 1.0/float(values['mi2me'])]
-    inp.setlist('intp', 'path', [pathe(values, unit), pathi(values, unit)])
-    inp.setlist('intp', 'peth', [pathe(values, unit), pathi(values, unit)])
-    inp.setlist('intp', 'vdri', [vdrie(values, unit), vdrii(values, unit)])
-
-
 def save_mpi(inp, values, unit):
     inp['mpi']['nodes'] = [int(values['nodesx']),
                            int(values['nodesy']),
                            int(values['nodesz'])]
-
-
-def wpe(values, unit):
-    ne = float(values['n0']) * 1e6  # /cc to /m^3
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    e0 = unit.e0.from_unit
-    wpe_phisic = math.sqrt(ne * qe * qe / me / e0)
-    return unit.f.trans(wpe_phisic)
-
-
-def wpi(values, unit):
-    ni = float(values['n0']) * 1e6
-    qe = unit.qe.from_unit
-    mi = unit.me.from_unit * float(values['mi2me'])
-    e0 = unit.e0.from_unit
-    wpi_phisic = math.sqrt(ni * qe * qe / mi / e0)
-    return unit.f.trans(wpi_phisic)
-
-
-def wc(values, unit):
-    B = float(values['B']) * 1e-9
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    wc_phisic = qe * B / me
-    return unit.f.trans(wc_phisic)
-
-
-def pathe(values, unit):
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    Te = float(values['Te'])
-    pathe_phisic = math.sqrt(qe * Te / me)
-    return unit.v.trans(pathe_phisic)
-
-
-def pathi(values, unit):
-    qe = unit.qe.from_unit
-    mi = unit.me.from_unit * float(values['mi2me'])
-    Ti = float(values['Ti'])
-    pathi_phisic = math.sqrt(qe * Ti / mi)
-    return unit.v.trans(pathi_phisic)
-
-
-def vdrie(values, unit):
-    return unit.v.trans(float(values['vdrie']))
-
-
-def vdrii(values, unit):
-    return unit.v.trans(float(values['vdrii']))
 
 
 def selectIndex(values, name):

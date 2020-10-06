@@ -69,46 +69,9 @@ def create_default_loader():
     loader.add_applyer('nz', lambda i, u: int(i['nz']))
     loader.add_applyer('nstep', lambda i, u: int(i['nstep']))
 
-    loader.add_applyer('n0', _n0)
-    loader.add_applyer('Te', _Te)
-    loader.add_applyer('Ti', _Ti)
-    loader.add_applyer('mi2me', lambda i, u: 1/i['qm'][1])
-    loader.add_applyer('vdrie', lambda i, u: u.v.reverse(i['vdri'][0]))
-    loader.add_applyer('vdrii', lambda i, u: u.v.reverse(i['vdri'][1]))
-    loader.add_applyer('B', _B)
-
     loader.add_applyer('jobnum', lambda i, u: ' '.join(list(map(str, i['jobnum']))))
     loader.add_applyer('nodesx', lambda i, u: i['nodes'][0])
     loader.add_applyer('nodesy', lambda i, u: i['nodes'][1])
     loader.add_applyer('nodesz', lambda i, u: i['nodes'][2])
 
     return loader
-
-
-def _n0(inp, unit):
-    wpe = unit.f.reverse(inp['plasma']['wp'][0])
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    e0 = unit.e0.from_unit
-    return me * e0 * wpe * wpe / (qe * qe) * 1e-6
-
-
-def _Te(inp, unit):
-    qe = unit.qe.from_unit
-    me = unit.me.from_unit
-    path = unit.v.reverse(inp['intp']['path'][0])
-    return me * path * path / qe
-
-
-def _Ti(inp, unit):
-    qe = unit.qe.from_unit
-    mi = unit.me.from_unit / inp['intp']['qm'][1]
-    path = unit.v.reverse(inp['intp']['path'][1])
-    return mi * path * path / qe
-
-
-def _B(inp, unit):
-    me = unit.me.from_unit
-    qe = unit.qe.from_unit
-    wc = unit.f.reverse(inp['plasma']['wc'])
-    return me * wc / qe * 1e9
