@@ -22,9 +22,9 @@ GUIのキー:
 import math
 
 import PySimpleGUI as sg
-from gui.basic_components import parameter
+from gui import parameter
 
-from additional.additional_parameter import AdditionalParameters
+from additional import AdditionalParameters
 
 
 class SimplePlasmaParameters(AdditionalParameters):
@@ -53,15 +53,16 @@ class SimplePlasmaParameters(AdditionalParameters):
         saver.add_saver(self._save_simple_plasma)
 
     def _save_simple_plasma(self, inp, values, unit):
-        inp.setlist('plasma', 'wp', [wpe(values, unit), wpi(values, unit)])
-        inp['plasma']['wc'] = wc(values, unit)
+        inp.setlist('plasma', 'wp', [_wpe(values, unit), _wpi(values, unit)])
+        inp['plasma']['wc'] = _wc(values, unit)
 
         inp.setlist('intp', 'qm', [-1.0, 1.0/float(values['mi2me'])])
-        inp.setlist('intp', 'path', [pathe(values, unit), pathi(values, unit)])
-        inp.setlist('intp', 'peth', [pathe(values, unit), pathi(values, unit)])
-        inp.setlist('intp', 'vdri', [vdrie(values, unit), vdrii(values, unit)])
+        inp.setlist('intp', 'path', [_pathe(values, unit), _pathi(values, unit)])
+        inp.setlist('intp', 'peth', [_pathe(values, unit), _pathi(values, unit)])
+        inp.setlist('intp', 'vdri', [_vdrie(values, unit), _vdrii(values, unit)])
 
 
+# For load
 def _n0(inp, unit):
     wpe = unit.f.reverse(inp['plasma']['wp'][0])
     qe = unit.qe.from_unit
@@ -91,7 +92,8 @@ def _B(inp, unit):
     return me * wc / qe * 1e9
 
 
-def wpe(values, unit):
+# For save
+def _wpe(values, unit):
     ne = float(values['n0']) * 1e6  # /cc to /m^3
     qe = unit.qe.from_unit
     me = unit.me.from_unit
@@ -100,7 +102,7 @@ def wpe(values, unit):
     return unit.f.trans(wpe_phisic)
 
 
-def wpi(values, unit):
+def _wpi(values, unit):
     ni = float(values['n0']) * 1e6
     qe = unit.qe.from_unit
     mi = unit.me.from_unit * float(values['mi2me'])
@@ -109,7 +111,7 @@ def wpi(values, unit):
     return unit.f.trans(wpi_phisic)
 
 
-def wc(values, unit):
+def _wc(values, unit):
     B = float(values['B']) * 1e-9
     qe = unit.qe.from_unit
     me = unit.me.from_unit
@@ -117,7 +119,7 @@ def wc(values, unit):
     return unit.f.trans(wc_phisic)
 
 
-def pathe(values, unit):
+def _pathe(values, unit):
     qe = unit.qe.from_unit
     me = unit.me.from_unit
     Te = float(values['Te'])
@@ -125,7 +127,7 @@ def pathe(values, unit):
     return unit.v.trans(pathe_phisic)
 
 
-def pathi(values, unit):
+def _pathi(values, unit):
     qe = unit.qe.from_unit
     mi = unit.me.from_unit * float(values['mi2me'])
     Ti = float(values['Ti'])
@@ -133,9 +135,9 @@ def pathi(values, unit):
     return unit.v.trans(pathi_phisic)
 
 
-def vdrie(values, unit):
+def _vdrie(values, unit):
     return unit.v.trans(float(values['vdrie']))
 
 
-def vdrii(values, unit):
+def _vdrii(values, unit):
     return unit.v.trans(float(values['vdrii']))

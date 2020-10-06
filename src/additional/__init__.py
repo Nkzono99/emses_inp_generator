@@ -1,3 +1,4 @@
+from additional.additional_parameter import AdditionalParameters
 from additional.simple_plasma import SimplePlasmaParameters
 from additional.boundary import BoundaryParameters
 from additional.photo_electron import PhotoParameters

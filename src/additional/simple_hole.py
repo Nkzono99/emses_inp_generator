@@ -30,9 +30,9 @@ GUIのキー:
 import math
 
 import PySimpleGUI as sg
-from gui.basic_components import parameter, radio_box
+from gui import parameter, radio_box
 
-from additional.additional_parameter import AdditionalParameters
+from additional import AdditionalParameters
 
 
 class SimpleHoleParameters(AdditionalParameters):

@@ -1,23 +1,21 @@
 import os
 
 import PySimpleGUI as sg
-
-from emsesinp import Plasmainp, UnitConversionKey
-from units import Units
+from utils import Plasmainp, UnitConversionKey, Units
 
 
 class Loader:
     def __init__(self):
         self.applyers = {}  # lambda Plasmainp, Units: value
         self.exceptors = {}  # lambda Plasmainp, Units: bool
-    
+
     def add_applyer(self, key, applyer, exceptor=None):
         self.applyers[key] = applyer
 
         if exceptor is None:
-            exceptor = lambda inp, unit: True
+            def exceptor(inp, unit): return True
         self.exceptors[key] = exceptor
-    
+
     def apply(self, inp, convkey, window):
         unit = Units(convkey.dx, convkey.to_c)
         for key, applyer in self.applyers.items():
@@ -28,7 +26,7 @@ class Loader:
             except KeyError:
                 continue
             window[key].Update(value=value)
-    
+
     def load(self, filename, window):
         if filename is None or not os.path.exists(filename):
             return None
@@ -59,7 +57,7 @@ def create_default_loader():
 
     loader.add_applyer('use_em', lambda i, u: i['emflag'] == 1)
     loader.add_applyer('use_pe', lambda i, u: i['nspec'] == 3)
-    
+
     loader.add_applyer('dx', lambda i, u: u.dx)
     loader.add_applyer('em_c', lambda i, u: u.to_c)
 
@@ -69,7 +67,8 @@ def create_default_loader():
     loader.add_applyer('nz', lambda i, u: int(i['nz']))
     loader.add_applyer('nstep', lambda i, u: int(i['nstep']))
 
-    loader.add_applyer('jobnum', lambda i, u: ' '.join(list(map(str, i['jobnum']))))
+    loader.add_applyer('jobnum', lambda i, u: ' '.join(
+        list(map(str, i['jobnum']))))
     loader.add_applyer('nodesx', lambda i, u: i['nodes'][0])
     loader.add_applyer('nodesy', lambda i, u: i['nodes'][1])
     loader.add_applyer('nodesz', lambda i, u: i['nodes'][2])

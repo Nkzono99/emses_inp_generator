@@ -1,7 +1,6 @@
 import math
 
-from emsesinp import UnitConversionKey
-from units import Units
+from utils import UnitConversionKey, Units
 
 
 class Saver:
@@ -72,10 +71,3 @@ def save_mpi(inp, values, unit):
     inp.setlist('mpi', 'nodes', [int(values['nodesx']),
                                  int(values['nodesy']),
                                  int(values['nodesz'])])
-
-
-def selectIndex(values, name):
-    for key, value in values.items():
-        if key.startswith(name) and value == True:
-            return int(key.replace(name, ''))
-    return None

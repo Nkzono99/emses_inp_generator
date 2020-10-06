@@ -49,20 +49,16 @@
     egyro : Electron gyro radius [m]
     igyro : Ion gyro radius [m]
 """
-
 import math
 import os
-from configparser import ConfigParser
 from argparse import ArgumentParser
-from additional import add_additional_parameter
+from configparser import ConfigParser
 
 import PySimpleGUI as sg
 
-from loader import create_default_loader
-from emsesinp import Plasmainp, UnitConversionKey
-from gui.gui import WindowCreator
-from saver import create_default_saver
-from units import Units
+from additional import add_additional_parameter
+from default import WindowCreator, create_default_loader, create_default_saver
+from utils import Plasmainp, UnitConversionKey, Units
 
 default_inp_path = 'template/default.inp'
 
@@ -103,9 +99,10 @@ def parse_args():
     parser.add_argument('--config', default='config.ini', help='Config file')
     return parser.parse_args()
 
+
 def main():
     args = parse_args()
-    
+
     config = ConfigParser()
     config.read(args.config)
 

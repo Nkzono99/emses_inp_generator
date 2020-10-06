@@ -3,8 +3,6 @@ from collections import OrderedDict
 
 import f90nml
 
-from units import Units
-
 
 def create_empty_namelist():
     namelist = OrderedDict()

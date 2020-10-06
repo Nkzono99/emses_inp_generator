@@ -19,12 +19,12 @@ GUIのキー:
     Tp : PE temprature [eV]
     dnsfp : Number of superparticles per photoelectron
 """
-import PySimpleGUI as sg
 import math
 
-from gui.basic_components import parameter
+import PySimpleGUI as sg
+from gui import parameter
 
-from additional.additional_parameter import AdditionalParameters
+from additional import AdditionalParameters
 
 
 class PhotoParameters(AdditionalParameters):
