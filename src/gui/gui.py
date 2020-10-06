@@ -1,36 +1,3 @@
-"""
-GUI設定.
-
-keyとパラメータの関係
-    use_em : Use em mode
-    use_pe : Use photoelectron
-
-    dx : Grid Width [m]
-    c : Light speed [m/s]
-    qe/me : Electron charge-to-mass ratio
-    e0 : FS-Permittivity [Fm^-1]
-
-    em_dx : Grid Width (EMSES Unit)
-    em_c : Light speed (EMSES Unit)
-    em_qe/me : Electron charge-to-mass ratio (EMSES Unit)
-    em_e0 : FS-Permittivity (EMSES Unit)
-
-    dt : dt [s]
-    nx : nx
-    ny : ny
-    nz : nz
-    nstep : nstep
-
-    jobnum : jobnum
-    nodesx : nodes x
-    nodesy : nodes y
-    nodesz : nodes z
-
-    debye : Debye Length [m]
-    egyro : Electron gyro radius [m]
-    igyro : Ion gyro radius [m]
-
-"""
 import glob
 
 import PySimpleGUI as sg
