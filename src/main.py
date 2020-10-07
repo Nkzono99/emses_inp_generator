@@ -57,7 +57,9 @@ from configparser import ConfigParser
 import PySimpleGUI as sg
 
 from additional import add_additional_parameter
-from default import WindowCreator, create_default_loader, create_default_saver
+from default import (WindowCreator, create_conversion_window,
+                     create_default_loader, create_default_saver,
+                     to_emses_unit, to_physical_unit)
 from utils import Plasmainp, UnitConversionKey, Units
 
 
@@ -110,18 +112,25 @@ def main():
 
     add_additional_parameter(config, wc, loader, saver)
 
-    window = wc.create_window()
-    window.finalize()
+    main_window = wc.create_window()
+    main_window.finalize()
+    conv_window = None
 
-    inp = loader.load(config['Default']['DefaultInpPath'], window)
+    inp = loader.load(config['Default']['DefaultInpPath'], main_window)
     if inp is None:
         inp = Plasmainp()
 
     while True:
-        event, values = window.read()
+        window, event, values = sg.read_all_windows()
 
-        if event is None:
+        if window == sg.WIN_CLOSED:
             break
+        if event == sg.WIN_CLOSED:
+            if window == main_window:
+                break
+            if window == conv_window:
+                conv_window.close()
+                conv_window = None
 
         if event == 'Save':
             filename = sg.popup_get_file('保存するファイル名を指定してください',
@@ -142,7 +151,7 @@ def main():
                                          file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
             if filename is None or len(filename) == 0:
                 continue
-            res = loader.load(filename, window)
+            res = loader.load(filename, main_window)
             if res is not None:
                 inp = res
 
@@ -153,7 +162,7 @@ def main():
             filename = values['template_file'][0]
             filename = os.path.join('template', filename)
 
-            res = loader.load(filename, window)
+            res = loader.load(filename, main_window)
             if res is not None:
                 inp = res
 
@@ -172,17 +181,39 @@ def main():
             saver.save(filename, inp, values)
 
         if event == 'Check':
-            window['debye'].Update(value=debye(values))
-            window['egyro'].Update(value=egyro(values))
-            window['igyro'].Update(value=igyro(values))
+            main_window['debye'].Update(value=debye(values))
+            main_window['egyro'].Update(value=egyro(values))
+            main_window['igyro'].Update(value=igyro(values))
+
+        if event == 'Open Conversion':
+            if conv_window is not None:
+                conv_window.close()
+            offset_x = float(config['Default']['ConversionWindowOffsetX'])
+            offset_y = float(config['Default']['ConversionWindowOffsetY'])
+            move_x = int(main_window.current_location()[0] + offset_x)
+            move_y = max(int(main_window.current_location()[1] + offset_y), 0)
+            conv_window = create_conversion_window(location=(move_x, move_y))
+            conv_window.finalize()
+
+        if event == 'To EMSES Unit':
+            dx = float(main_window['dx'].get())
+            to_c = float(main_window['em_c'].get())
+            to_emses_unit(conv_window, values, dx=dx, to_c=to_c)
+
+        if event == 'To Physical Unit':
+            dx = float(main_window['dx'].get())
+            to_c = float(main_window['em_c'].get())
+            to_physical_unit(conv_window, values, dx=dx, to_c=to_c)
 
         if event == 'Restart Window':
             res = sg.popup_ok_cancel('Can I just restart this window?')
             if res == 'OK':
-                window.close()
+                main_window.close()
+                if conv_window is not None:
+                    conv_window.close()
                 main()
                 return
-    window.close()
+    main_window.close()
 
 
 if __name__ == '__main__':
