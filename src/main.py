@@ -104,7 +104,7 @@ def main():
     config = ConfigParser()
     config.read(args.config)
 
-    wc = WindowCreator()
+    wc = WindowCreator(theme=config['Default']['ColorTheme'])
     loader = create_default_loader()
     saver = create_default_saver()
 
