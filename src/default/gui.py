@@ -22,11 +22,11 @@ class WindowCreator:
     def add_tab_creator(self, tab_creator):
         self.tab_creators.append(tab_creator)
 
-    def create_window(self):
+    def create_window(self, use_physical_dt=False):
         sg.theme(self.theme)
 
         template_frame = create_template_frame()
-        main_frame = create_main_frame(self.tab_creators)
+        main_frame = create_main_frame(self.tab_creators, use_physical_dt)
 
         layout = [
             [template_frame, main_frame]
@@ -50,14 +50,23 @@ def create_basis_frame():
     return sg.Frame('基準パラメータ', layout)
 
 
-def create_simulation_frame():
-    layout = [
-        parameter('dt [s]', 0.01, key='dt'),
-        parameter('nx', 64, key='nx'),
-        parameter('ny', 64, key='ny'),
-        parameter('nz', 512, key='nz'),
-        parameter('nstep', 100000, key='nstep')
-    ]
+def create_simulation_frame(use_physical_dt):
+    if use_physical_dt:
+        layout = [
+            parameter('dt [s]', 0.01, key='dt'),
+            parameter('nx', 64, key='nx'),
+            parameter('ny', 64, key='ny'),
+            parameter('nz', 512, key='nz'),
+            parameter('nstep', 100000, key='nstep')
+        ]
+    else:
+        layout = [
+            parameter('dt', 0.01, key='dt'),
+            parameter('nx', 64, key='nx'),
+            parameter('ny', 64, key='ny'),
+            parameter('nz', 512, key='nz'),
+            parameter('nstep', 100000, key='nstep')
+        ]
     return sg.Frame('シミュレーションパラメータ', layout)
 
 
@@ -80,8 +89,8 @@ def create_check_frame():
     return sg.Frame('チェック', layout)
 
 
-def create_main_frame(tab_creators):
-    tmgrid_frame = create_simulation_frame()
+def create_main_frame(tab_creators, use_physical_dt):
+    tmgrid_frame = create_simulation_frame(use_physical_dt=use_physical_dt)
     basis_frame = create_basis_frame()
     parameter_tabs = sg.TabGroup([[creator() for creator in tab_creators]])
 

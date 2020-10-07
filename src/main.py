@@ -107,12 +107,12 @@ def main():
     config.read(args.config)
 
     wc = WindowCreator(theme=config['Default']['ColorTheme'])
-    loader = create_default_loader()
-    saver = create_default_saver()
+    loader = create_default_loader(use_physical_dt=config['Control'].getboolean('UsePhysicalDt'))
+    saver = create_default_saver(use_physical_dt=config['Control'].getboolean('UsePhysicalDt'))
 
     add_additional_parameter(config, wc, loader, saver)
 
-    main_window = wc.create_window()
+    main_window = wc.create_window(use_physical_dt=config['Control'].getboolean('UsePhysicalDt'))
     main_window.finalize()
     conv_window = None
 

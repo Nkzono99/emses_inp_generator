@@ -28,13 +28,16 @@ class Saver:
         inp.save(filename, convkey=convkey)
 
 
-def create_default_saver():
+def create_default_saver(use_physical_dt=False):
     saver = Saver()
 
     saver.add_saver(save_esorem)
     saver.add_saver(save_job_con)
     saver.add_saver(save_plasma)
-    saver.add_saver(save_tmgrid)
+    if use_physical_dt:
+        saver.add_saver(save_tmgrid_physical_dt)
+    else:
+        saver.add_saver(save_tmgrid_emses_dt)
     saver.add_saver(save_system)
     saver.add_saver(save_mpi)
 
@@ -55,7 +58,14 @@ def save_plasma(inp, values, unit):
     inp['plasma']['cv'] = float(values['em_c'])
 
 
-def save_tmgrid(inp, values, unit):
+def save_tmgrid_emses_dt(inp, values, unit):
+    inp['tmgrid']['dt'] = float(values['dt'])
+    inp['tmgrid']['nx'] = int(values['nx'])
+    inp['tmgrid']['ny'] = int(values['ny'])
+    inp['tmgrid']['nz'] = int(values['nz'])
+
+
+def save_tmgrid_physical_dt(inp, values, unit):
     inp['tmgrid']['dt'] = unit.t.trans(float(values['dt']))
     inp['tmgrid']['nx'] = int(values['nx'])
     inp['tmgrid']['ny'] = int(values['ny'])
