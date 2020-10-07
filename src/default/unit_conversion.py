@@ -31,8 +31,8 @@ def create_conversion_window(location=None):
         [conversion('Magnetic flux density [T]', key='conv_B')],
         [conversion('Inductance [H]', key='conv_L')],
         [conversion('Temperature [K]', key='conv_T')],
-        [sg.Button('To EMSES Unit'),
-         sg.Button('To Physical Unit')]
+        [sg.Button('To Physical Unit'),
+         sg.Button('To EMSES Unit')]
     ]
     return sg.Window('変換: Physical unit <=> EMSES unit', layout=layout, location=location)
 
