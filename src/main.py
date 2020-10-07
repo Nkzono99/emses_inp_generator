@@ -175,8 +175,6 @@ def main():
                                          file_types=(('Input Files', '.inp'), ('ALL Files', '*')))
             if filename is None or len(filename) == 0:
                 continue
-            if not os.path.exists(filename):
-                continue
             saver.save(filename, inp, values)
 
         if event == 'Check':
