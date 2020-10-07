@@ -188,7 +188,11 @@ def main():
         if event == 'Open Conversion':
             if conv_window is not None:
                 conv_window.close()
-            conv_window = create_conversion_window()
+            offset_x = float(config['Default']['ConversionWindowOffsetX'])
+            offset_y = float(config['Default']['ConversionWindowOffsetY'])
+            move_x = int(main_window.current_location()[0] + offset_x)
+            move_y = max(int(main_window.current_location()[1] + offset_y), 0)
+            conv_window = create_conversion_window(location=(move_x, move_y))
             conv_window.finalize()
 
         if event == 'To EMSES Unit':

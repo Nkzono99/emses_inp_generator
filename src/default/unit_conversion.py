@@ -4,7 +4,7 @@ from utils import UnitConversionKey, Units
 from gui import conversion
 
 
-def create_conversion_window():
+def create_conversion_window(location=None):
     layout = [
         [conversion('Mass [kg]', key='conv_m')],
         [conversion('Time [s]', key='conv_t')],
@@ -34,7 +34,7 @@ def create_conversion_window():
         [sg.Button('To EMSES Unit'),
          sg.Button('To Physical Unit')]
     ]
-    return sg.Window('変換: Physical unit <=> EMSES unit', layout=layout)
+    return sg.Window('変換: Physical unit <=> EMSES unit', layout=layout, location=location)
 
 
 convs = [
