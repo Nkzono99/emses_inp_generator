@@ -52,7 +52,7 @@ class Loader:
         return inp
 
 
-def create_default_loader():
+def create_default_loader(use_physical_dt=False):
     loader = Loader()
 
     loader.add_applyer('use_em', lambda i, u: i['emflag'] == 1)
@@ -61,7 +61,11 @@ def create_default_loader():
     loader.add_applyer('dx', lambda i, u: u.dx)
     loader.add_applyer('em_c', lambda i, u: u.to_c)
 
-    loader.add_applyer('dt', lambda i, u: u.t.reverse(i['dt']))
+    if use_physical_dt:
+        loader.add_applyer('dt', lambda i, u: u.t.reverse(i['dt']))
+    else:
+        loader.add_applyer('dt', lambda i, u: i['dt'])
+
     loader.add_applyer('nx', lambda i, u: int(i['nx']))
     loader.add_applyer('ny', lambda i, u: int(i['ny']))
     loader.add_applyer('nz', lambda i, u: int(i['nz']))
