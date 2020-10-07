@@ -32,7 +32,8 @@ class WindowCreator:
             [template_frame, main_frame]
         ]
 
-        window = sg.Window(self.title, layout)
+        window = sg.Window(self.title, layout, finalize=True)
+        window['template_file'].bind('<Double-Button-1>', '_double_clicked')
         return window
 
 
@@ -115,8 +116,9 @@ def create_template_frame():
     template_files = glob.glob('template/*.inp')
     template_files = [os.path.basename(filename)
                       for filename in template_files]
+    template_list = sg.Listbox(template_files, key='template_file', size=(30, 30))
     layout = [
-        [sg.Listbox(template_files, key='template_file', size=(30, 30))],
+        [template_list],
         [sg.Button('Apply Template'), sg.Button('Save Template')]
     ]
     return sg.Frame('Template files', layout)
