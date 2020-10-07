@@ -94,8 +94,10 @@ def create_main_frame(tab_creators):
         [basis_frame],
         [parameter_tabs, sg.Button('=>', key='Check'), check_frame],
         [tmgrid_frame, extra_frame],
-        [sg.Submit(button_text='Save'), sg.Submit(
-            button_text='Load'), sg.Button('Restart Window')]
+        [sg.Submit(button_text='Save'),
+         sg.Button(button_text='Load'),
+         sg.Button('Restart Window'),
+         sg.Button('Open Conversion')]
     ]
     return sg.Frame('Parameter settings', layout)
 

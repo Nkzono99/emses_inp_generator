@@ -1,1 +1,2 @@
-from gui.basic_components import basis_parameter, parameter, radio_box, selectIndex
+from gui.basic_components import (basis_parameter, conversion, parameter,
+                                  radio_box, selectIndex)

@@ -43,8 +43,18 @@ def radio_box(name, *selections, group_id, default_index=0):
         box.append(radio)
     return box
 
+
 def selectIndex(values, name):
     for key, value in values.items():
         if key.startswith(name) and value == True:
             return int(key.replace(name, ''))
     return None
+
+
+def conversion(name, key, default=0, em_default=0):
+    name_text = sg.Text(name, size=name_size)
+    physical_unit = sg.InputText(str(default), size=value_size, key=key)
+    emses_unit = sg.InputText(str(em_default),
+                              size=value_size,
+                              key='em_{}'.format(key))
+    return sg.Column([[name_text, physical_unit, sg.Text('<=>'), emses_unit]])
