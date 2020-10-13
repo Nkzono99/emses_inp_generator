@@ -9,7 +9,7 @@
         ijxyz(1:3)
         ipahdf(nspec)
         ipadig(nspec)
-        ipaxyz(6, nspec)
+        ipaxyz(1:6, nspec)
 
 GUIのキー:
     hdfdigstart : Steps to start output [step]
