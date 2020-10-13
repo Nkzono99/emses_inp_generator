@@ -58,3 +58,15 @@ def conversion(name, key, default=0, em_default=0):
                               size=value_size,
                               key='em_{}'.format(key))
     return sg.Column([[name_text, physical_unit, sg.Text('<=>'), emses_unit]])
+
+
+def checkboxes(name, *checks, base_key, defaults=None):
+    if defaults is None:
+        defaults = [False] * len(checks)
+    if not isinstance(defaults, (list, tuple)):
+        defaults = [defaults] * len(checks)
+
+    name_text = sg.Text(name, size=name_size)
+    check_boxes = [sg.Checkbox(check, key='{}{}'.format(
+        base_key, i)) for i, check in enumerate(checks)]
+    return sg.Column([[name_text, *check_boxes]])
