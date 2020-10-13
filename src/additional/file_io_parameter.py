@@ -12,6 +12,16 @@
         ipaxyz(6, nspec)
 
 GUIのキー:
+    hdfdigstart : Steps to start output [step]
+    output_field_interval : Output field step interval [step]
+    output_particles_interval : Output particles step interval [step]
+    output_potential : Output charge density and potential
+    efxyz[0-2] : Output electric field xyz
+    mfxyz[0-2] : Output magnetic field xyz
+    ijxyz[0-2] : Output current density xyz
+    ipadig : Number of output particles
+    pxxyz[0-2] : Output particle position xyz
+    pvxyz[0-2] : Ouptput particle velocity xyz
 """
 import PySimpleGUI as sg
 from gui import parameter, checkboxes
@@ -42,7 +52,8 @@ class FileIOParameters(AdditionalParameters):
         particle_layout = [
             parameter('Output particles step interval [step]', 0,
                       key='output_particles_interval'),
-            parameter('Number of output particles', 1024, key='ipadig'),
+            parameter('Number of output particles', 1024,
+                      key='ipadig'),
             [checkboxes('Output particle position', 'x', 'y', 'z',
                         base_key='pxxyz',
                         defaults=False)],
@@ -52,7 +63,8 @@ class FileIOParameters(AdditionalParameters):
         ]
         particle_frame = sg.Frame('Particles', particle_layout)
         layout = [
-            parameter('Steps to start output [step]', 0, key='hdfdigstart'),
+            parameter('Steps to start output [step]', 0,
+                      key='hdfdigstart'),
             [field_frame],
             [particle_frame]
         ]
@@ -100,7 +112,8 @@ class FileIOParameters(AdditionalParameters):
         inp['digcon']['ifdiag'] = int(values['output_field_interval'])
         inp['digcon']['ijdiag'] = int(values['output_field_interval'])
 
-        inp.setlist('digcon', 'ipahdf', [int(values['output_particles_interval'])] * nspec)
+        inp.setlist('digcon', 'ipahdf', [
+                    int(values['output_particles_interval'])] * nspec)
         inp.setlist('digcon', 'ipadig', [int(values['ipadig'])] * nspec)
 
     def _save_ifjxyz(self, inp, values, unit):
