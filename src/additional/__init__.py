@@ -7,17 +7,16 @@ from additional.simple_hole import SimpleHoleParameters
 from additional.file_io_parameter import FileIOParameters
 
 def add_additional_parameter(config, window_creator, loader, saver):
-    SimplePlasmaParameters().add_parameters(window_creator, loader, saver)
-    PICParameters().add_parameters(window_creator, loader, saver)
-
-    if config['Control'].getboolean('ControlPhotoelectronParameter'):
-        PhotoParameters().add_parameters(window_creator, loader, saver)
-
-    if config['Control'].getboolean('ControlBoundaryParameter'):
-        BoundaryParameters().add_parameters(window_creator, loader, saver)
+    param_classes = [
+        (SimplePlasmaParameters, 10),
+        (PICParameters, 50),
+        (PhotoParameters, 100),
+        (BoundaryParameters, 150),
+        (SimpleHoleParameters, 200),
+        (FileIOParameters, 300)
+    ]
     
-    if config['Control'].getboolean('ControlSimpleHoleParameter'):
-        SimpleHoleParameters().add_parameters(window_creator, loader, saver)
-    
-    if config['Control'].getboolean('ControlFileIOParameter'):
-        FileIOParameters().add_parameters(window_creator, loader, saver)
+    param_classes.sort(key=lambda x: x[1])
+    for param_class, _ in param_classes:
+        if param_class.is_active(config):
+            param_class().add_parameters(window_creator, loader, saver)

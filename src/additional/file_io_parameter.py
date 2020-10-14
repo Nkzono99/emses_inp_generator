@@ -30,6 +30,10 @@ from additional import AdditionalParameters
 
 
 class FileIOParameters(AdditionalParameters):
+    @classmethod
+    def is_active(cls, config):
+        return config['Control'].getboolean('ControlFileIOParameter')
+
     def create_tab(self):
         field_layout = [
             parameter('Output field step interval [step]', 10000,

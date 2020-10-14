@@ -20,6 +20,10 @@ from additional import AdditionalParameters
 
 
 class BoundaryParameters(AdditionalParameters):
+    @classmethod
+    def is_active(cls, config):
+        return config['Control'].getboolean('ControlBoundaryParameter')
+
     def create_tab(self):
         layout = [
             radio_box('Field Boundary X', 'periodic',
