@@ -36,6 +36,10 @@ from additional import AdditionalParameters
 
 
 class SimpleHoleParameters(AdditionalParameters):
+    @classmethod
+    def is_active(cls, config):
+        return config['Control'].getboolean('ControlSimpleHoleParameter')
+
     def create_tab(self):
         frame_layout = [
             [sg.Checkbox('Use hole', default=False, key='use_hole')],

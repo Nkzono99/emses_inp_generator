@@ -4,6 +4,10 @@ class AdditionalParameters:
         self.add_applyers(loader)
         self.add_savers(saver)
     
+    @classmethod
+    def is_active(cls, config):
+        return True
+    
     def create_tab(self):
         raise NotImplementedError()
     

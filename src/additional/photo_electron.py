@@ -28,6 +28,10 @@ from additional import AdditionalParameters
 
 
 class PhotoParameters(AdditionalParameters):
+    @classmethod
+    def is_active(cls, config):
+        return config['Control'].getboolean('ControlPhotoelectronParameter')
+
     def create_tab(self):
         layout = [
             parameter('PE current density [microA/m^2]', 0, key='Jp'),
