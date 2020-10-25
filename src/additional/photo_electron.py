@@ -71,6 +71,7 @@ class PhotoParameters(AdditionalParameters):
         inp.setlist('emissn', 'dnsf', int(values['dnsfp']), start_index=3)
 
     def _remove_photo(self, inp, values, unit):
+        inp.remove('qm', index=3)
         inp.remove('nflag_emit', index=3)
         inp.remove('wp', index=3)
         inp.remove('path', index=3)
