@@ -49,6 +49,9 @@ class Loader:
 
         inp = Plasmainp(filename)
         self.apply(inp, convkey, window)
+
+        window['basefile'].Update('Base file: {}'.format(filename))
+
         return inp
 
 

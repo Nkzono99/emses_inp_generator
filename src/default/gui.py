@@ -107,7 +107,8 @@ def create_main_frame(tab_creators, use_physical_dt):
         [sg.Submit(button_text='Save'),
          sg.Button(button_text='Load'),
          sg.Button('Restart Window'),
-         sg.Button('Open Conversion')]
+         sg.Button('Open Conversion'),
+         sg.Text('Base file: None', key='basefile', size=(100, 1))]
     ]
     return sg.Frame('Parameter settings', layout)
 
@@ -116,7 +117,8 @@ def create_template_frame():
     template_files = glob.glob('template/*.inp')
     template_files = [os.path.basename(filename)
                       for filename in template_files]
-    template_list = sg.Listbox(template_files, key='template_file', size=(30, 30))
+    template_list = sg.Listbox(
+        template_files, key='template_file', size=(30, 30))
     layout = [
         [template_list],
         [sg.Button('Apply Template'), sg.Button('Save Template')]
