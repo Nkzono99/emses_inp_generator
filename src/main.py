@@ -96,6 +96,7 @@ def igyro(values):
 
 def parse_args():
     parser = ArgumentParser()
+    parser.add_argument('inppath', nargs='?', default=None)
     parser.add_argument('--config', default='config.ini', help='Config file')
     return parser.parse_args()
 
@@ -115,7 +116,8 @@ def main():
     main_window = wc.create_window(use_physical_dt=config['Control'].getboolean('UsePhysicalDt'))
     conv_window = None
 
-    inp = loader.load(config['Default']['DefaultInpPath'], main_window)
+    inppath = args.inppath or config['Default']['DefaultInpPath']
+    inp = loader.load(inppath, main_window)
     if inp is None:
         inp = Plasmainp()
 
