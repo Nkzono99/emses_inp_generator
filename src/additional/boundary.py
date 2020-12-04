@@ -38,6 +38,12 @@ class BoundaryParameters(AdditionalParameters):
                       'Dirichlet', 'Neumann', group_id='npbndy'),
             radio_box('Particles Boundary Z', 'periodic',
                       'Dirichlet', 'Neumann', group_id='npbndz'),
+            radio_box('Potential Boundary X', 'periodic',
+                      'Dirichlet', 'Neumann', group_id='mtd_vbndx'),
+            radio_box('Potential Boundary Y', 'periodic',
+                      'Dirichlet', 'Neumann', group_id='mtd_vbndy'),
+            radio_box('Potential Boundary Z', 'periodic',
+                      'Dirichlet', 'Neumann', group_id='mtd_vbndz'),
         ]
         return sg.Tab('境界条件', layout)
 
@@ -59,6 +65,16 @@ class BoundaryParameters(AdditionalParameters):
         loader.add_applyer('npbndz1', lambda i, u: i['npbnd'][2] == 1)
         loader.add_applyer('npbndz2', lambda i, u: i['npbnd'][2] == 2)
 
+        loader.add_applyer('mtd_vbndx0', lambda i, u: i['mtd_vbnd'][0] == 0)
+        loader.add_applyer('mtd_vbndx1', lambda i, u: i['mtd_vbnd'][0] == 1)
+        loader.add_applyer('mtd_vbndx2', lambda i, u: i['mtd_vbnd'][0] == 2)
+        loader.add_applyer('mtd_vbndy0', lambda i, u: i['mtd_vbnd'][1] == 0)
+        loader.add_applyer('mtd_vbndy1', lambda i, u: i['mtd_vbnd'][1] == 1)
+        loader.add_applyer('mtd_vbndy2', lambda i, u: i['mtd_vbnd'][1] == 2)
+        loader.add_applyer('mtd_vbndz0', lambda i, u: i['mtd_vbnd'][2] == 0)
+        loader.add_applyer('mtd_vbndz1', lambda i, u: i['mtd_vbnd'][2] == 1)
+        loader.add_applyer('mtd_vbndz2', lambda i, u: i['mtd_vbnd'][2] == 2)
+
     def add_savers(self, saver):
         saver.add_saver(self._save_boundary)
 
@@ -70,3 +86,6 @@ class BoundaryParameters(AdditionalParameters):
         inp['system']['npbnd'] = [selectIndex(values, 'npbndx'),
                                   selectIndex(values, 'npbndy'),
                                   selectIndex(values, 'npbndz')] * nspec
+        inp.setlist('system', 'mtd_vbnd', [selectIndex(values, 'mtd_vbndx'),
+                                     selectIndex(values, 'mtd_vbndy'),
+                                     selectIndex(values, 'mtd_vbndz')])
