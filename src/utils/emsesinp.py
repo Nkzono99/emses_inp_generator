@@ -66,6 +66,13 @@ class Plasmainp:
                     return self.nml[group][key]
         raise KeyError()
     
+    def __contains__(self, key):
+        try:
+            value = self[key]
+        except KeyError:
+            return False
+        return True
+    
     def remove(self, key, index=None):
         if key in self.nml.keys():
             del self.nml[key]
