@@ -36,7 +36,9 @@ class SimplePlasmaParameters(AdditionalParameters):
             parameter('Ion-to-electron mass ratio', 1000, key='mi2me'),
             parameter('Electron flow speed [m/s]', 1000, key='vdrie'),
             parameter('Ion flow speed [m/s]', 1000, key='vdrii'),
-            parameter('Magnetic field [nT]', 0, key='B')
+            parameter('Magnetic field [nT]', 0, key='B'),
+            parameter('Plasma flow z-angle [deg]', 0, key='vdthz'),
+            parameter('Plasma flow xy-angle [deg]', 180, key='vdthxy'),
         ]
         return sg.Tab('プラズマパラメータ', layout)
 
@@ -48,6 +50,8 @@ class SimplePlasmaParameters(AdditionalParameters):
         loader.add_applyer('vdrie', lambda i, u: u.v.reverse(i['vdri'][0]))
         loader.add_applyer('vdrii', lambda i, u: u.v.reverse(i['vdri'][1]))
         loader.add_applyer('B', _B)
+        loader.add_applyer('vdthz', lambda i, u: i['vdthz'][0])
+        loader.add_applyer('vdthxy', lambda i, u: i['vdthxy'][0])
 
     def add_savers(self, saver):
         saver.add_saver(self._save_simple_plasma)
@@ -60,6 +64,8 @@ class SimplePlasmaParameters(AdditionalParameters):
         inp.setlist('intp', 'path', [_pathe(values, unit), _pathi(values, unit)])
         inp.setlist('intp', 'peth', [_pathe(values, unit), _pathi(values, unit)])
         inp.setlist('intp', 'vdri', [_vdrie(values, unit), _vdrii(values, unit)])
+        inp.setlist('intp', 'vdthz', [float(values['vdthz'])] * 2)
+        inp.setlist('intp', 'vdthxy', [float(values['vdthxy'])] * 2)
 
 
 # For load
