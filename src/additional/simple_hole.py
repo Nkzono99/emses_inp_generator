@@ -28,11 +28,36 @@ GUIのキー:
     thetaxy : Sunlight incident angle xy [dig]
 """
 import math
+from typing import List
 
 import PySimpleGUI as sg
 from gui import parameter, radio_box
 
 from additional import AdditionalParameters
+from dataclasses import dataclass
+from utils.emsesinp import Plasmainp
+
+
+@dataclass
+class EmissionSurface:
+    nemd: int
+    curf: float
+    xmin: float
+    xmax: float
+    ymin: float
+    ymax: float
+    zmin: float
+    zmax: float
+
+    def saveinp(self, inp: Plasmainp, index: int):
+        inp.setlist('emissn', 'nemd', self.nemd, start_index=index)
+        inp.setlist('emissn', 'curfs', self.curf, start_index=index)
+        inp.setlist('emissn', 'xmine', self.xmin, start_index=index)
+        inp.setlist('emissn', 'xmaxe', self.xmax, start_index=index)
+        inp.setlist('emissn', 'ymine', self.ymin, start_index=index)
+        inp.setlist('emissn', 'ymaxe', self.ymax, start_index=index)
+        inp.setlist('emissn', 'zmine', self.zmin, start_index=index)
+        inp.setlist('emissn', 'zmaxe', self.zmax, start_index=index)
 
 
 class SimpleHoleParameters(AdditionalParameters):
@@ -52,10 +77,7 @@ class SimpleHoleParameters(AdditionalParameters):
         tab_layout = [
             parameter('Surface hight [grid]', 10, key='zssurf'),
             [hole_frame],
-            radio_box('Direction of Sunlight', 'x', 'y',
-                      'z', group_id='nemd', default_index=2),
-            parameter('Sunlight incident angle z [dig]', 0.0, key='thetaz'),
-            parameter('Sunlight incident angle xy [dig]', 180.0, key='thetaxy')
+            parameter('Sunlight zenith angle [dig]', 0.0, key='zenith'),
         ]
         return sg.Tab('穴パラメータ', layout=tab_layout)
 
@@ -70,11 +92,10 @@ class SimpleHoleParameters(AdditionalParameters):
         loader.add_applyer('hole_xlen', hole_xlen, exceptor=use_hole)
         loader.add_applyer('hole_ylen', hole_ylen, exceptor=use_hole)
         loader.add_applyer('hole_depth', hole_depth, exceptor=use_hole)
-        loader.add_applyer('nemd0', lambda i, u: i['nemd'][0] == 1)
-        loader.add_applyer('nemd1', lambda i, u: i['nemd'][0] == 2)
-        loader.add_applyer('nemd2', lambda i, u: i['nemd'][0] == 3)
-        loader.add_applyer('thetaz', lambda i, u: i['thetaz'])
-        loader.add_applyer('thetaxy', lambda i, u: i['thetaxy'])
+
+        def use_emit(i, u): return 'curfs' in i
+        def calc_zenith(i, j): return math.degrees(math.acos(abs(i['curfs'][0] / i['curf'][-1])))
+        loader.add_applyer('zenith', calc_zenith, exceptor=use_emit)
 
     def add_savers(self, saver):
         saver.add_saver(self._save_hole_shape, lambda i, v, u: v['use_hole'])
@@ -104,69 +125,67 @@ class SimpleHoleParameters(AdditionalParameters):
         inp.setlist('ptcond', 'zlrechole', [zssurf-1.0, zssurf-hole_depth])
         inp.setlist('ptcond', 'zurechole', [zssurf, zssurf-1.0])
 
-    def _save_emission(self, inp, values, unit):
+    def _save_emission(self, inp: Plasmainp, values, unit):
         nx = int(values['nx'])
         ny = int(values['ny'])
         zssurf = float(values['zssurf'])
-        hole_xlen = float(values['hole_xlen'])
-        hole_ylen = float(values['hole_ylen'])
-        hole_depth = float(values['hole_depth'])
-        hole_x_min = (nx - hole_xlen) / 2
-        hole_x_max = (nx + hole_xlen) / 2
-        hole_y_min = (ny - hole_ylen) / 2
-        hole_y_max = (ny + hole_ylen) / 2
-        hole_z_min = zssurf-hole_depth
-        thetaz = float(values['thetaz'])
-        thetaxy = float(values['thetaxy'])
 
-        inp['emissn']['thetaz'] = thetaz
-        inp['emissn']['thetaxy'] = thetaxy
+        # 垂直に太陽光が照射される場合の光電子電流
+        curf = unit.J.trans(float(values['Jp']) * 1e-6)
 
-        # 光電子発生範囲を設定する
-        # 真上から太陽光が照射している場合
-        if thetaz == 0:
-            inp.setlist('emissn', 'nepl', 1, start_index=3)
-            inp.setlist('emissn', 'nemd', 3)
-            inp.setlist('emissn', 'xmine', hole_x_min)
-            inp.setlist('emissn', 'xmaxe', hole_x_max)
-            inp.setlist('emissn', 'ymine', hole_y_min)
-            inp.setlist('emissn', 'ymaxe', hole_y_max)
-            inp.setlist('emissn', 'zmine', hole_z_min)
-            inp.setlist('emissn', 'zmaxe', hole_z_min)
-            return
+        # 照射角を取得
+        zenith_deg = float(values['zenith'])
+        zenith_rad = math.radians((zenith_deg + 360) % 360)
 
-        # ラジアンに変換
-        theta = math.radians((thetaxy + 180) % 180)
-        phi = math.radians((thetaz + 360) % 360)
+        # 光電子電流を計算
+        curf_horizon = curf * abs(math.cos(zenith_rad))
+        curf_vertical = curf * abs(math.sin(zenith_rad))
 
-        # 太陽光が照射される範囲を計算する
-        if theta <= math.pi / 2 or math.pi * 3 / 2 <= theta:  # from +x
-            x_min = hole_x_min
-            x_max = hole_x_max - hole_depth * math.cos(theta) / math.tan(phi)
-        else:  # from -x
-            x_min = hole_x_min + hole_depth * math.cos(theta) / math.tan(phi)
-            x_max = hole_x_max
+        esurfs: List[EmissionSurface] = []
+        if values['use_hole']:
+            hole_xlen = float(values['hole_xlen'])
+            hole_ylen = float(values['hole_ylen'])
+            hole_depth = float(values['hole_depth'])
+            hole_x_min = (nx - hole_xlen) / 2
+            hole_x_max = (nx + hole_xlen) / 2
+            hole_y_min = (ny - hole_ylen) / 2
+            hole_y_max = (ny + hole_ylen) / 2
+            hole_z_min = zssurf-hole_depth
 
-        if theta <= math.pi:  # from +y
-            y_min = hole_y_min
-            y_max = hole_y_max - hole_depth * math.sin(theta) / math.tan(phi)
-        else:  # from -y
-            y_min = hole_y_min + hole_depth * math.sin(theta) / math.tan(phi)
-            y_max = hole_y_max
+            emit_x_min = hole_x_min + hole_depth * math.tan(zenith_rad)
+            if zenith_rad == 0:
+                emit_z_min = math.inf
+            else:
+                emit_z_min = zssurf - hole_xlen / math.tan(zenith_rad)
 
-        # 穴底面に入射しない場合放出面に関わるパラメータを削除する.
-        if x_min > x_max or y_min > y_max:
-            self._remove_emission(inp, values, unit)
-            return
+            # 光電子発生面を設定する
+            esurfs.append(EmissionSurface(3, curf_horizon,
+                                          0, hole_x_min, 0, ny, zssurf, zssurf))
+            esurfs.append(EmissionSurface(3, curf_horizon,
+                                          hole_x_min, hole_x_max, 0, hole_y_min, zssurf, zssurf))
+            esurfs.append(EmissionSurface(3, curf_horizon,
+                                          hole_x_max, nx, 0, ny, zssurf, zssurf))
+            esurfs.append(EmissionSurface(3, curf_horizon,
+                                          hole_x_min, hole_x_max, hole_y_max, ny, zssurf, zssurf))
+            if emit_x_min < hole_x_max:
+                esurfs.append(EmissionSurface(3, curf_horizon,
+                                              emit_x_min, hole_x_max, hole_y_min, hole_y_max, hole_z_min, hole_z_min))
+            if emit_z_min < zssurf:
+                esurfs.append(EmissionSurface(-1, curf_vertical,
+                                              hole_x_max, hole_x_max, hole_y_min, hole_y_max, emit_z_min, zssurf))
+        else:
+            esurfs.append(EmissionSurface(3, curf_horizon,
+                                          0, nx, 0, ny, zssurf, zssurf))
 
-        inp.setlist('emissn', 'nepl', 1, start_index=3)
-        inp.setlist('emissn', 'nemd', 3)
-        inp.setlist('emissn', 'xmine', x_min)
-        inp.setlist('emissn', 'xmaxe', x_max)
-        inp.setlist('emissn', 'ymine', y_min)
-        inp.setlist('emissn', 'ymaxe', y_max)
-        inp.setlist('emissn', 'zmine', hole_z_min)
-        inp.setlist('emissn', 'zmaxe', hole_z_min)
+        # 光電子面数を設定
+        nepl = len(esurfs)
+        inp.setlist('emissn', 'nepl', nepl, start_index=3)
+
+        for i, esurf in enumerate(esurfs):
+            esurf.saveinp(inp, index=i+1)
+
+        # 不要な放出面に関わるパラメータを削除する.
+        self._remove_emission(inp, values, unit)
 
     def _remove_hole(self, inp, values, unit):
         for index in (1, 2):
@@ -177,12 +196,17 @@ class SimpleHoleParameters(AdditionalParameters):
             inp.remove('zlrechole', index=index)
             inp.remove('zurechole', index=index)
 
-    def _remove_emission(self, inp, values, unit):
-        inp.setlist('emissn', 'nepl', 0, start_index=3)
-        inp.remove('nemd', index=1)
-        inp.remove('xmine', index=1)
-        inp.remove('xmaxe', index=1)
-        inp.remove('ymine', index=1)
-        inp.remove('ymaxe', index=1)
-        inp.remove('zmine', index=1)
-        inp.remove('zmaxe', index=1)
+    def _remove_emission(self, inp: Plasmainp, values, unit):
+        nepl = nemd = 0
+        if 'nepl' in inp:
+            nepl = inp['nepl'][-1]
+        if 'nemd' in inp:
+            nemd = len(inp['nemd'])
+        for i in range(nepl, nemd):
+            inp.remove('nemd', index=nepl)
+            inp.remove('xmine', index=nepl)
+            inp.remove('xmaxe', index=nepl)
+            inp.remove('ymine', index=nepl)
+            inp.remove('ymaxe', index=nepl)
+            inp.remove('zmine', index=nepl)
+            inp.remove('zmaxe', index=nepl)
