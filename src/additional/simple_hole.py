@@ -94,7 +94,7 @@ class SimpleHoleParameters(AdditionalParameters):
         loader.add_applyer('hole_depth', hole_depth, exceptor=use_hole)
 
         def use_emit(i, u): return 'curfs' in i
-        def calc_zenith(i, j): return math.degrees(math.acos(abs(i['curfs'][0] / i['curf'][-1])))
+        def calc_zenith(i, j): return math.degrees(math.asin(abs(i['curfs'][0] / i['curf'][-1])))
         loader.add_applyer('zenith', calc_zenith, exceptor=use_emit)
 
     def add_savers(self, saver):
@@ -138,8 +138,8 @@ class SimpleHoleParameters(AdditionalParameters):
         zenith_rad = math.radians((zenith_deg + 360) % 360)
 
         # 光電子電流を計算
-        curf_horizon = curf * abs(math.cos(zenith_rad))
-        curf_vertical = curf * abs(math.sin(zenith_rad))
+        curf_horizon = curf * abs(math.sin(zenith_rad))
+        curf_vertical = curf * abs(math.cos(zenith_rad))
 
         esurfs: List[EmissionSurface] = []
         if values['use_hole']:
