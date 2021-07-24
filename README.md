@@ -124,3 +124,10 @@ or
     ipadig(nspec)
     ipaxyz(1:6, nspec)
 ```
+
+### ChargeAcceleration Parameters (Control.ControlChargeAccelerationParameter)
+```
+$gradema
+    grad_coef
+    smooth_coef
+```
