@@ -60,6 +60,7 @@ from additional import add_additional_parameter
 from default import (WindowCreator, create_conversion_window,
                      create_default_loader, create_default_saver,
                      to_emses_unit, to_physical_unit)
+from default.config_manager import create_config_window, reset_config, update_config
 from utils import Plasmainp, UnitConversionKey, Units
 
 
@@ -115,6 +116,7 @@ def main():
 
     main_window = wc.create_window(use_physical_dt=config['Control'].getboolean('UsePhysicalDt'))
     conv_window = None
+    config_window = None
 
     inppath = args.inppath or config['Default']['DefaultInpPath']
     inp = loader.load(inppath, main_window)
@@ -132,6 +134,10 @@ def main():
             if window == conv_window:
                 conv_window.close()
                 conv_window = None
+            
+            if window == config_window:
+                config_window.close()
+                config_window = None
 
         if event == 'Save':
             filename = sg.popup_get_file('保存するファイル名を指定してください',
@@ -212,6 +218,25 @@ def main():
                     conv_window.close()
                 main()
                 return
+        
+        if event == 'Open Config':
+            if config_window is not None:
+                config_window.close()
+            offset_x = float(config['Default']['ConfigWindowOffsetX'])
+            offset_y = float(config['Default']['ConfigWidowOffsetY'])
+            move_x = int(main_window.current_location()[0] + offset_x)
+            move_y = max(int(main_window.current_location()[1] + offset_y), 0)
+            config_window = create_config_window(config, location=(move_x, move_y))
+            config_window.finalize()
+        
+        if event == 'Reset Config':
+            reset_config(config, values)
+        
+        if event == 'Save Config':
+            update_config(config, values)
+            with open('config.ini', 'w', encoding='utf-8') as f:
+                config.write(f)
+
     main_window.close()
 
 
