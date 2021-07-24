@@ -36,7 +36,8 @@ class PhotoParameters(AdditionalParameters):
         layout = [
             parameter('PE current density [microA/m^2]', 0, key='Jp'),
             parameter('PE temprature [eV]', 1.0, key='Tp'),
-            parameter('Number of superparticles per PE', 40, key='dnsfp')
+            parameter('Number of superparticles per PE', 40, key='dnsfp'),
+            parameter('Magnification of PE buffer', 10, key='nnp'),
         ]
         return sg.Tab('光電子パラメータ', layout)
 
@@ -44,8 +45,8 @@ class PhotoParameters(AdditionalParameters):
         def use_pe(i, u): return i['nspec'] == 3
         loader.add_applyer('Jp', _curf_load, exceptor=use_pe)
         loader.add_applyer('Tp', _Tp, exceptor=use_pe)
-        loader.add_applyer('dnsfp', lambda i,
-                           u: i['dnsf'][-1], exceptor=use_pe)
+        loader.add_applyer('dnsfp', lambda i, u: i['dnsf'][-1], exceptor=use_pe)
+        loader.add_applyer('nnp', _nnp_load, exceptor=use_pe)
 
     def add_savers(self, saver):
         saver.add_saver(self._save_photo, exceptor=lambda i, v, u: v['use_pe'])
@@ -63,8 +64,9 @@ class PhotoParameters(AdditionalParameters):
         inp.setlist('intp', 'path', _pathp(values, unit), start_index=3)
         inp.setlist('intp', 'peth', _pathp(values, unit), start_index=3)
         inp.setlist('intp', 'npin', 0, start_index=3)
-        inp.setlist('intp', 'np', int(
-            values['np_per_grid']) * nx * ny * nz, start_index=3)
+
+        np = int(float(values['nnp'])) * int(values['np_per_grid']) * nx * ny * nz
+        inp.setlist('intp', 'np', np, start_index=3)
 
         inp.setlist('emissn', 'curf', _curf_save(values, unit), start_index=3)
         inp.setlist('emissn', 'nflag_emit', 2, start_index=3)
@@ -84,6 +86,10 @@ class PhotoParameters(AdditionalParameters):
 
 def _curf_load(inp, unit):
     return unit.J.reverse(inp['curf'][-1]) * 1e6
+
+
+def _nnp_load(inp, unit):
+    return inp['np'][-1] / (inp['nx'] * inp['ny'] * inp['nz'] * inp['dnsf'][-1])
 
 
 def _Tp(inp, unit):

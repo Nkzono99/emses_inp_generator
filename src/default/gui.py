@@ -107,6 +107,7 @@ def create_main_frame(tab_creators, use_physical_dt):
         [sg.Submit(button_text='Save'),
          sg.Button(button_text='Load'),
          sg.Button('Restart Window'),
+         sg.Button('Open Config'),
          sg.Button('Open Conversion'),
          sg.Text('Base file: None', key='basefile', size=(100, 1))]
     ]
