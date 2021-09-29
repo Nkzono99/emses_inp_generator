@@ -156,7 +156,7 @@ class SimpleHoleParameters(AdditionalParameters):
             if zenith_rad == 0:
                 emit_z_min = math.inf
             else:
-                emit_z_min = zssurf - hole_xlen / math.tan(zenith_rad)
+                emit_z_min = max(zssurf - hole_xlen / math.tan(zenith_rad), hole_z_min)
 
             # 光電子発生面を設定する
             esurfs.append(EmissionSurface(3, curf_horizon,
