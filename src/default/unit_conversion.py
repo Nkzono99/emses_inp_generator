@@ -31,6 +31,7 @@ def create_conversion_window(location=None):
         [conversion('Magnetic flux density [T]', key='conv_B')],
         [conversion('Inductance [H]', key='conv_L')],
         [conversion('Temperature [K]', key='conv_T')],
+        [conversion('Acceleration [m/s^2]', key='conv_a')],
         [sg.Button('To Physical Unit'),
          sg.Button('To EMSES Unit')]
     ]
@@ -63,6 +64,7 @@ convs = [
     ('conv_B', lambda u: u.B),
     ('conv_L', lambda u: u.L),
     ('conv_T', lambda u: u.T),
+    ('conv_a', lambda u: u.a),
 ]
 
 

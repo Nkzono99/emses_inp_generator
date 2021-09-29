@@ -74,6 +74,7 @@ class Units:
 
         length = UnitTranslator(dx, 1, name='Sim-to-Real length ratio')
         t = (length / v).set_name('Time')
+        a = (v / t).set_name('Acceleration')
         f = (1 / t).set_name('Frequency')
         n = (1 / (length ** 3)).set_name('Number density')
         N = (v * n).set_name('Flux')
@@ -127,6 +128,7 @@ class Units:
         self.t = t
         self.f = f
         self.v = v
+        self.a = a
         self.n = n
         self.N = N
         self.F = F

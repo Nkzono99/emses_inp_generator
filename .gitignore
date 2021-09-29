@@ -130,3 +130,5 @@ dmypy.json
 
 template/*
 !template/default.inp
+
+*.lnk
