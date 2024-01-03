@@ -3,20 +3,29 @@ EMSESに用いるパラメータファイル「plasma.inp」の自動生成ツ�
 
 ![Main Window](images/inpgen_main.png)
 
+- [emses\_inp\_generator](#emses_inp_generator)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Unit Conversion](#unit-conversion)
+  - [Controlled Parameters](#controlled-parameters)
+    - [Default Parameters (Default)](#default-parameters-default)
+    - [Simple Plasma Paramters (Default)](#simple-plasma-paramters-default)
+    - [PIC Parameters (Default)](#pic-parameters-default)
+    - [Photo Electron Parameters (Control.ControlPhotoelectronParameter)](#photo-electron-parameters-controlcontrolphotoelectronparameter)
+    - [Boundary Parameters (Control.ControlBoundaryParameter)](#boundary-parameters-controlcontrolboundaryparameter)
+    - [Simple Hole Parameters (Control.ControlSimpleHoleParameter)](#simple-hole-parameters-controlcontrolsimpleholeparameter)
+    - [File IO Parameters (Control.ControlFileIOParameter)](#file-io-parameters-controlcontrolfileioparameter)
+    - [ChargeAcceleration Parameters (Control.ControlChargeAccelerationParameter)](#chargeacceleration-parameters-controlcontrolchargeaccelerationparameter)
+
+
 ## Installation
 ```
-> pip install git+https://github.com/Nkzono99/emses_inp_generator.git
+pip install git+https://github.com/Nkzono99/emses_inp_generator.git
 ```
 
 ## Usage
 ```
-> ./inpgen.bat
-```
-
-or
-
-```
-> python src/main.py
+inpgen
 ```
 
 ## Unit Conversion
@@ -31,6 +40,8 @@ or
 このツールでは以下のパラメータを管理し、それ以外のパラメータは不変に保ちます.
 
 また括弧内がDefaultでないパラメータについては管理するかどうかConfig.iniファイルで設定することができます.
+
+Config.iniファイルを変更する場合は、GUI下部の「Open Config」ボタンを押してください.
 
 ### Default Parameters (Default)
 ```
