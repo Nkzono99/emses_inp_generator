@@ -1,7 +1,7 @@
 import os
 
 import PySimpleGUI as sg
-from utils import Plasmainp, UnitConversionKey, Units
+from ..utils import Plasmainp, UnitConversionKey, Units
 
 
 class Loader:

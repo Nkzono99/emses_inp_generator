@@ -31,11 +31,11 @@ import math
 from typing import List
 
 import PySimpleGUI as sg
-from gui import parameter, radio_box
+from ..gui import parameter, radio_box
 
-from additional import AdditionalParameters
+from . import AdditionalParameters
 from dataclasses import dataclass
-from utils.emsesinp import Plasmainp
+from ..utils.emsesinp import Plasmainp
 
 
 @dataclass

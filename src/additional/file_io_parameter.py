@@ -24,9 +24,9 @@ GUIのキー:
     pvxyz[0-2] : Ouptput particle velocity xyz
 """
 import PySimpleGUI as sg
-from gui import parameter, checkboxes
+from ..gui import parameter, checkboxes
 
-from additional import AdditionalParameters
+from . import AdditionalParameters
 
 
 class FileIOParameters(AdditionalParameters):

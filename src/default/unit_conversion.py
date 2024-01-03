@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
-from utils import UnitConversionKey, Units
+from ..utils import UnitConversionKey, Units
 
-from gui import conversion
+from ..gui import conversion
 
 
 def create_conversion_window(location=None):

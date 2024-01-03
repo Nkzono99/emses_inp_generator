@@ -22,9 +22,9 @@ GUIのキー:
 import math
 
 import PySimpleGUI as sg
-from gui import parameter
+from ..gui import parameter
 
-from additional import AdditionalParameters
+from . import AdditionalParameters
 
 
 class PhotoParameters(AdditionalParameters):

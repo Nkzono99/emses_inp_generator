@@ -1,11 +1,11 @@
-from additional.additional_parameter import AdditionalParameters
-from additional.charge_acceleration import ChargeAccelerationParameters
-from additional.simple_plasma import SimplePlasmaParameters
-from additional.boundary import BoundaryParameters
-from additional.photo_electron import PhotoParameters
-from additional.pic import PICParameters
-from additional.simple_hole import SimpleHoleParameters
-from additional.file_io_parameter import FileIOParameters
+from .additional_parameter import AdditionalParameters
+from .charge_acceleration import ChargeAccelerationParameters
+from .simple_plasma import SimplePlasmaParameters
+from .boundary import BoundaryParameters
+from .photo_electron import PhotoParameters
+from .pic import PICParameters
+from .simple_hole import SimpleHoleParameters
+from .file_io_parameter import FileIOParameters
 
 def add_additional_parameter(config, window_creator, loader, saver):
     param_classes = [

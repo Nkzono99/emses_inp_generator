@@ -14,9 +14,9 @@ GUIのキー:
     npbndx[0-2] : Particles Boundary Z
 """
 import PySimpleGUI as sg
-from gui import radio_box, selectIndex
+from ..gui import radio_box, selectIndex
 
-from additional import AdditionalParameters
+from . import AdditionalParameters
 
 
 class BoundaryParameters(AdditionalParameters):

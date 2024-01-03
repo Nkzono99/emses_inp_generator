@@ -3,7 +3,7 @@ import os
 
 import PySimpleGUI as sg
 
-from gui import basis_parameter, parameter
+from ..gui import basis_parameter, parameter
 
 
 class WindowCreator:

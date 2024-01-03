@@ -5,7 +5,7 @@ EMSESに用いるパラメータファイル「plasma.inp」の自動生成ツ�
 
 ## Installation
 ```
-> pip install -r requirements.txt
+> pip install git+https://github.com/Nkzono99/emses_inp_generator.git
 ```
 
 ## Usage

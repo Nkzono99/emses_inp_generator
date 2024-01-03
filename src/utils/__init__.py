@@ -1,2 +1,2 @@
-from utils.emsesinp import UnitConversionKey, Plasmainp
-from utils.units import Units
+from .emsesinp import UnitConversionKey, Plasmainp
+from .units import Units

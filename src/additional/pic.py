@@ -8,8 +8,8 @@ GUIのキー:
     np_per_grid: Number of super particles per grid
 """
 import PySimpleGUI as sg
-from gui import parameter, radio_box
-from additional import AdditionalParameters
+from ..gui import parameter, radio_box
+from . import AdditionalParameters
 
 class PICParameters(AdditionalParameters):
     def create_tab(self):
