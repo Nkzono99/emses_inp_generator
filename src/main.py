@@ -100,6 +100,7 @@ def igyro(values):
 
 def parse_args():
     rootdir = Path(__file__).parent
+    print(rootdir)
     parser = ArgumentParser()
     parser.add_argument("inppath", nargs="?", default=None)
     parser.add_argument("--config", default=str((rootdir/"config.ini").resolve()), help="Config file")
