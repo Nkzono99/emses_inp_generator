@@ -1,4 +1,5 @@
 ###### Requirements ######
 f90nml
 pysimplegui
+emout >= 0.13.7
 #
