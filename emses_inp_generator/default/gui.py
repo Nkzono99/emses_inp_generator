@@ -115,7 +115,10 @@ def create_main_frame(tab_creators, use_physical_dt):
 
 
 def create_template_frame():
-    template_files = glob.glob('template/*.inp')
+    from pathlib import Path
+
+    template_dir = str((Path(__file__).parent.parent / "template").resolve())
+    template_files = glob.glob(f'{template_dir}/*.inp')
     template_files = [os.path.basename(filename)
                       for filename in template_files]
     template_list = sg.Listbox(

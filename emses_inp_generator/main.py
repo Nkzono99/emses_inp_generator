@@ -177,6 +177,7 @@ def main():
                 default_extension="inp",
                 no_window=True,
                 file_types=(("Input Files", ".inp"), ("ALL Files", "*")),
+                initial_folder=ROOT_DIR / "template",
             )
             if filename is None or len(filename) == 0:
                 continue
@@ -201,7 +202,7 @@ def main():
                 save_as=True,
                 default_path="template.inp",
                 default_extension="inp",
-                initial_folder="template",
+                initial_folder=ROOT_DIR / "template",
                 no_window=True,
                 file_types=(("Input Files", ".inp"), ("ALL Files", "*")),
             )
