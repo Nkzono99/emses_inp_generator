@@ -118,6 +118,7 @@ def create_template_frame():
     from pathlib import Path
 
     template_dir = str((Path(__file__).parent.parent / "template").resolve())
+    print(template_dir)
     template_files = glob.glob(f'{template_dir}/*.inp')
     template_files = [os.path.basename(filename)
                       for filename in template_files]
