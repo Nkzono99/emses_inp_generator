@@ -1,1 +1,2 @@
 include template/default.inp
+include config.ini
