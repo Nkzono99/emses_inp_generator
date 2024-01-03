@@ -57,14 +57,21 @@ from configparser import ConfigParser
 import PySimpleGUI as sg
 
 from .additional import add_additional_parameter
-from .default import (WindowCreator, create_conversion_window,
-                      create_default_loader, create_default_saver,
-                      to_emses_unit, to_physical_unit)
-from .default.config_manager import (create_config_window, reset_config,
-                                     update_config)
+from .default import (
+    WindowCreator,
+    create_conversion_window,
+    create_default_loader,
+    create_default_saver,
+    to_emses_unit,
+    to_physical_unit,
+)
+from .default.config_manager import create_config_window, reset_config, update_config
 from .utils import Plasmainp, UnitConversionKey, Units
 
 from pathlib import Path
+
+
+ROOT_DIR = Path(__file__).parent
 
 
 def debye(values):
@@ -99,11 +106,11 @@ def igyro(values):
 
 
 def parse_args():
-    rootdir = Path(__file__).parent
-    print(rootdir)
     parser = ArgumentParser()
     parser.add_argument("inppath", nargs="?", default=None)
-    parser.add_argument("--config", default=str((rootdir/"config.ini").resolve()), help="Config file")
+    parser.add_argument(
+        "--config", default=str((ROOT_DIR / "config.ini").resolve()), help="Config file"
+    )
     return parser.parse_args()
 
 
@@ -112,8 +119,6 @@ def main():
 
     config = ConfigParser()
     config.read(args.config)
-
-    print(args.config)
 
     wc = WindowCreator(theme=config["Default"]["ColorTheme"])
     loader = create_default_loader(
@@ -184,9 +189,9 @@ def main():
                 continue
 
             filename = values["template_file"][0]
-            filename = os.path.join("template", filename)
+            filepath = str((ROOT_DIR / "template" / filename).resolve())
 
-            res = loader.load(filename, main_window)
+            res = loader.load(filepath, main_window)
             if res is not None:
                 inp = res
 
