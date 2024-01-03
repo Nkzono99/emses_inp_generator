@@ -99,7 +99,7 @@ def igyro(values):
 
 
 def parse_args():
-    rootdir = Path(__file__).parent.parent
+    rootdir = Path(__file__).parent
     parser = ArgumentParser()
     parser.add_argument("inppath", nargs="?", default=None)
     parser.add_argument("--config", default=str((rootdir/"config.ini").resolve()), help="Config file")
@@ -111,6 +111,8 @@ def main():
 
     config = ConfigParser()
     config.read(args.config)
+
+    print(args.config)
 
     wc = WindowCreator(theme=config["Default"]["ColorTheme"])
     loader = create_default_loader(
