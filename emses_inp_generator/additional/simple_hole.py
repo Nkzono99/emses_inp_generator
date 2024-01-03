@@ -35,7 +35,7 @@ from ..gui import parameter, radio_box
 
 from . import AdditionalParameters
 from dataclasses import dataclass
-from ..utils.emsesinp import Plasmainp
+from emout import InpFile
 
 
 @dataclass
@@ -49,7 +49,7 @@ class EmissionSurface:
     zmin: float
     zmax: float
 
-    def saveinp(self, inp: Plasmainp, index: int):
+    def saveinp(self, inp: InpFile, index: int):
         inp.setlist('emissn', 'nemd', self.nemd, start_index=index)
         inp.setlist('emissn', 'curfs', self.curf, start_index=index)
         inp.setlist('emissn', 'xmine', self.xmin, start_index=index)
@@ -125,7 +125,7 @@ class SimpleHoleParameters(AdditionalParameters):
         inp.setlist('ptcond', 'zlrechole', [zssurf-1.0, zssurf-hole_depth])
         inp.setlist('ptcond', 'zurechole', [zssurf, zssurf-1.0])
 
-    def _save_emission(self, inp: Plasmainp, values, unit):
+    def _save_emission(self, inp: InpFile, values, unit):
         nx = int(values['nx'])
         ny = int(values['ny'])
         zssurf = float(values['zssurf'])
@@ -196,7 +196,7 @@ class SimpleHoleParameters(AdditionalParameters):
             inp.remove('zlrechole', index=index)
             inp.remove('zurechole', index=index)
 
-    def _remove_emission(self, inp: Plasmainp, values, unit):
+    def _remove_emission(self, inp: InpFile, values, unit):
         nepl = nemd = 0
         if 'nepl' in inp:
             nepl = inp['nepl'][-1]

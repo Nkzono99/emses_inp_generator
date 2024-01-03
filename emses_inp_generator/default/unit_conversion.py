@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from ..utils import UnitConversionKey, Units
+from emout import UnitConversionKey, Units
 
 from ..gui import conversion
 

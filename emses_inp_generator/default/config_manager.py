@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from ..gui.basic_components import parameter
-from ..utils import UnitConversionKey, Units
+from emout import UnitConversionKey, Units
 
 
 def create_config_window(config, location=None):

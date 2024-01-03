@@ -66,7 +66,7 @@ from .default import (
     to_physical_unit,
 )
 from .default.config_manager import create_config_window, reset_config, update_config
-from .utils import Plasmainp, UnitConversionKey, Units
+from emout import InpFile, UnitConversionKey, Units
 
 from pathlib import Path
 
@@ -75,7 +75,8 @@ ROOT_DIR = Path(__file__).parent
 
 
 def debye(values):
-    unit = Units()
+    # Since the conversion function is not used, dx and to_c are filled with meaningless values.
+    unit = Units(dx=0.001, to_c=10000)
     qe = unit.qe.from_unit
     e0 = unit.e0.from_unit
     n0 = float(values["n0"]) * 1e6
@@ -84,7 +85,8 @@ def debye(values):
 
 
 def egyro(values):
-    unit = Units()
+    # Since the conversion function is not used, dx and to_c are filled with meaningless values.
+    unit = Units(dx=0.001, to_c=10000)
     qe = unit.qe.from_unit
     me = unit.me.from_unit
     Te = float(values["Te"])
@@ -95,7 +97,8 @@ def egyro(values):
 
 
 def igyro(values):
-    unit = Units()
+    # Since the conversion function is not used, dx and to_c are filled with meaningless values.
+    unit = Units(dx=0.001, to_c=10000)
     qe = unit.qe.from_unit
     mi = unit.me.from_unit * float(values["mi2me"])
     Ti = float(values["Ti"])
@@ -136,10 +139,10 @@ def main():
     conv_window = None
     config_window = None
 
-    inppath = args.inppath or config["Default"]["DefaultInpPath"]
+    inppath = args.inppath or ROOT_DIR / config["Default"]["DefaultInpPath"]
     inp = loader.load(inppath, main_window)
     if inp is None:
-        inp = Plasmainp()
+        inp = InpFile()
 
     while True:
         window, event, values = sg.read_all_windows()

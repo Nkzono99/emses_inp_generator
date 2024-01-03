@@ -1,6 +1,6 @@
 import math
 
-from ..utils import UnitConversionKey, Units
+from emout import UnitConversionKey, Units
 
 
 class Saver:

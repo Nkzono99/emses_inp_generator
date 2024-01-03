@@ -1,13 +1,13 @@
 import os
 
 import PySimpleGUI as sg
-from ..utils import Plasmainp, UnitConversionKey, Units
+from emout import InpFile, UnitConversionKey, Units
 
 
 class Loader:
     def __init__(self):
-        self.applyers = {}  # lambda Plasmainp, Units: value
-        self.exceptors = {}  # lambda Plasmainp, Units: bool
+        self.applyers = {}  # lambda InpFile, Units: value
+        self.exceptors = {}  # lambda InpFIle, Units: bool
 
     def add_applyer(self, key, applyer, exceptor=None):
         self.applyers[key] = applyer
@@ -47,7 +47,7 @@ class Loader:
 
             convkey = UnitConversionKey(dx, to_c)
 
-        inp = Plasmainp(filename)
+        inp = InpFile(filename)
         self.apply(inp, convkey, window)
 
         window['basefile'].Update('Base file: {}'.format(filename))
