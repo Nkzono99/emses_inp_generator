@@ -32,7 +32,7 @@ def create_conversion_window(location=None):
         [conversion('Inductance [H]', key='conv_L')],
         [conversion('Temperature [K]', key='conv_T')],
         [conversion('Acceleration [m/s^2]', key='conv_a')],
-        [conversion('Electric conductivity [S/m]', key='conv_EC')]
+        [conversion('Electric conductivity [S/m]', key='conv_EC')],
         [sg.Button('To Physical Unit'),
          sg.Button('To EMSES Unit')]
     ]
