@@ -1,2 +1,2 @@
-include src/template/default.inp
-include src/config.ini
+include emses_inp_generator/template/default.inp
+include emses_inp_generator/config.ini

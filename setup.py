@@ -20,7 +20,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'inpgen = src.main:main',
+            'inpgen = emses_inp_generator.main:main',
         ]
     },
     classifiers=[
